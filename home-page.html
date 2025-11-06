@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI HUB Home Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-primary': '#F9FAFB',        // Light Gray background
+              'brand-secondary': '#FFFFFF',       // White for cards
+              'brand-accent': '#2979ff',          // Primary Blue from snippet
+              'brand-accent-light': '#e3f2fd',    // Light Blue BG from snippet
+              'brand-accent-hover': '#1e63d3',    // Darker blue for hover
+              'brand-success': '#28a745',         // Success Green from snippet
+              'brand-text-primary': '#1F2937',    // Dark Gray for text
+              'brand-text-secondary': '#6B7281',  // Medium Gray for secondary text
+              'brand-input-bg': '#fdfdff',         // Light background for inputs
+              'brand-input-text': '#1F2937',      // Dark text for inputs
+              'brand-input-border': '#dee2e6',   // Border color from snippet
+            }
+          }
+        }
+      }
+    </script>
+</head>
+  <body class="bg-brand-primary text-brand-text-primary font-sans">
+    <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <main class="max-w-4xl mx-auto space-y-8">
+            <!-- Header -->
+            <header class="text-center">
+                <div class="inline-block bg-blue-100 p-2 rounded-lg mb-2">
+                     <svg class="w-8 h-8 text-brand-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w.org/2000/svg">
+                        <path d="M12.23 18.02c-1.92.7-3.46.48-4.81-.86-2.2-2.2-2.2-5.78 0-7.98 2.2-2.2 5.78-2.2 7.98 0 .33.33.59.7.79 1.1M11.77 5.98c1.92-.7 3.46-.48 4.81.86 2.2 2.2 2.2 5.78 0 7.98-2.2 2.2-5.78 2.2-7.98 0-.33-.33-.59-.7-.79-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 22v-2m0-16V2m10 10h-2M4 12H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                     </svg>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-brand-text-primary">Bem-vindo ao AI HUB, Woopi AI!</h1>
+                <p class="text-brand-text-secondary mt-2 max-w-2xl mx-auto">Sua jornada para automatizar e otimizar processos com inteligência artificial começa agora.</p>
+            </header>
+
+            <!-- Purchase Summary -->
+            <div class="bg-brand-secondary p-6 rounded-xl border border-gray-200 shadow-sm text-center">
+                 <p class="text-sm text-brand-text-secondary">Você adquiriu o</p>
+                 <p class="text-2xl font-bold text-brand-accent my-1">Plano Enterprise</p>
+                 <p class="text-xs text-brand-text-secondary">Agradecemos por escolher a nossa plataforma!</p>
+            </div>
+
+            <!-- API Key -->
+            <div class="bg-brand-secondary p-6 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="text-lg font-semibold text-brand-text-primary">Sua Chave de Acesso para Modelos de IA</h3>
+                <p class="text-sm text-brand-text-secondary mt-1">Utilize esta chave para integrar nossos modelos de IA em suas aplicações.</p>
+                <div class="mt-4 flex items-center gap-2 bg-gray-100 p-3 rounded-lg border border-gray-200">
+                    <span class="font-mono text-sm text-brand-text-secondary flex-1 truncate">sk-AbC123XyZ789.................uvW456</span>
+                    <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 bg-blue-100 text-brand-accent hover:bg-blue-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 4.625v2.625a2.625 2.625 0 11-5.25 0v-2.625m0 0V15.75m0 0v-2.625A2.625 2.625 0 0112 10.5h.375a2.625 2.625 0 012.625 2.625v2.625" />
+                        </svg>
+                        <span>Copiar</span>
+                    </button>
+                </div>
+                 <div class="mt-4 text-xs text-brand-text-secondary p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                    <p><strong>Cota Padrão:</strong> 50.000 tokens/mês.</p>
+                    <p class="mt-1"><strong>Importante:</strong> Mantenha sua chave de API segura e não a exponha publicamente.</p>
+                </div>
+            </div>
+
+            <!-- Onboarding Section -->
+            <div>
+                <h2 class="text-2xl font-bold text-brand-text-primary text-center mb-6">Trilha de Iniciação Rápida</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-brand-secondary p-6 rounded-xl border border-gray-200 shadow-sm text-center flex flex-col items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-accent mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        <h4 class="font-semibold text-brand-text-primary">Conheça a Plataforma</h4>
+                        <p class="text-sm text-brand-text-secondary mt-1 mb-4 flex-grow">Assista a um tour guiado de 5 minutos sobre as principais funcionalidades.</p>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-brand-accent hover:text-brand-accent-hover">
+                            Ver vídeo &rarr;
+                        </a>
+                    </div>
+                     <div class="bg-brand-secondary p-6 rounded-xl border border-gray-200 shadow-sm text-center flex flex-col items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-accent mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                        <h4 class="font-semibold text-brand-text-primary">Seu Primeiro Workflow</h4>
+                        <p class="text-sm text-brand-text-secondary mt-1 mb-4 flex-grow">Siga nosso guia passo-a-passo para criar sua primeira automação em minutos.</p>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-brand-accent hover:text-brand-accent-hover">
+                            Iniciar guia &rarr;
+                        </a>
+                    </div>
+                     <div class="bg-brand-secondary p-6 rounded-xl border border-gray-200 shadow-sm text-center flex flex-col items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brand-accent mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        <h4 class="font-semibold text-brand-text-primary">Explore a Documentação</h4>
+                        <p class="text-sm text-brand-text-secondary mt-1 mb-4 flex-grow">Consulte nossa documentação completa para explorar todo o potencial da AI HUB.</p>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-brand-accent hover:text-brand-accent-hover">
+                            Acessar docs &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+  </body>
+</html>

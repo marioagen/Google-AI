@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bem-vindo ao AI HUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-primary': '#F9FAFB',        // Light Gray background
+              'brand-secondary': '#FFFFFF',       // White for cards
+              'brand-accent': '#2979ff',          // Primary Blue from snippet
+              'brand-accent-light': '#e3f2fd',    // Light Blue BG from snippet
+              'brand-accent-hover': '#1e63d3',    // Darker blue for hover
+              'brand-success': '#28a745',         // Success Green from snippet
+              'brand-text-primary': '#1F2937',    // Dark Gray for text
+              'brand-text-secondary': '#6B7281',  // Medium Gray for secondary text
+              'brand-input-bg': '#fdfdff',         // Light background for inputs
+              'brand-input-text': '#1F2937',      // Dark text for inputs
+              'brand-input-border': '#dee2e6',   // Border color from snippet
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "recharts": "https://aistudiocdn.com/recharts@^3.3.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "date-fns/": "https://aistudiocdn.com/date-fns@^4.1.0/",
+    "date-fns": "https://aistudiocdn.com/date-fns@^4.1.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-brand-primary text-brand-text-primary">
+    <div id="root" class="w-full"></div>
+  </body>
+</html>
