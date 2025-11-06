@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 
 // --- Reusable SVG Icons ---
@@ -453,7 +454,7 @@ const ApiKeysView = ({ keys, onAdd, onDelete }) => {
             const allKeyIds = new Set(keys.map(k => k.id));
             setSelectedKeys(allKeyIds);
         } else {
-            // FIX: Explicitly set the type of the new Set to number to match the state type.
+            // Fix: Explicitly provide the type for the new Set to avoid it being inferred as Set<unknown>.
             setSelectedKeys(new Set<number>());
         }
     };
@@ -478,7 +479,7 @@ const ApiKeysView = ({ keys, onAdd, onDelete }) => {
 
     const handleDeleteSelected = () => {
         onDelete(Array.from(selectedKeys));
-        // FIX: Explicitly set the type of the new Set to number to match the state type.
+        // Fix: Explicitly provide the type for the new Set to avoid it being inferred as Set<unknown>.
         setSelectedKeys(new Set<number>());
     };
 
