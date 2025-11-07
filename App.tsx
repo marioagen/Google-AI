@@ -1,6 +1,18 @@
+import React, { useState, useRef, FormEvent, ChangeEvent, useCallback, useMemo, useEffect } from 'react';
+import ReactFlow, {
+    useNodesState,
+    useEdgesState,
+    addEdge,
+    MiniMap,
+    Controls,
+    Background,
+    Handle,
+    Position,
+    ReactFlowProvider,
+    // Fix: Import BackgroundVariant for use in the Background component.
+    BackgroundVariant,
+} from 'reactflow';
 
-
-import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 
 // --- Reusable SVG Icons ---
 
@@ -125,6 +137,22 @@ const MoreIcon = ({ className = "w-5 h-5" }) => (
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h.01M12 12h.01M19 12h.01" />
     </svg>
 );
+// --- NEW ICONS for Workflow Builder ---
+const ChevronLeftIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
+const SaveIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>;
+const DownloadIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>;
+const UploadIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4 4m0 0l4-4m-4 4V4" /></svg>;
+const EyeOffIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a9.97 9.97 0 01-1.563 3.029m-2.201-4.209a3 3 0 00-4.243-4.243" /></svg>;
+const PlayIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+const ScanIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v1m6 11h2m-6.5-1.5l-2.828 2.828a4 4 0 01-5.657-5.657l2.829-2.828a4 4 0 015.656 0l2.828 2.828a4 4 0 010 5.657z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
+const LinkIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>;
+const FileTextIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>;
+const MailIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>;
+const PaperAirplaneIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>;
+const FlagIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6H8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" /></svg>;
+const SettingsIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
+const XIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>;
+const EditIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
 
 
 // --- Faithfull reimplementation of the provided HTML/JS modal ---
@@ -476,13 +504,14 @@ const ApiKeysView = ({ keys, onAdd, onDelete }) => {
     const [newKeyName, setNewKeyName] = useState('');
     const [selectedKeys, setSelectedKeys] = useState(new Set<number>());
     const [copiedKeyId, setCopiedKeyId] = useState<number | null>(null);
+    const indeterminateCheckboxRef = useRef<HTMLInputElement>(null);
 
     const handleSelectAll = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
             const allKeyIds = new Set(keys.map(k => k.id));
             setSelectedKeys(allKeyIds);
         } else {
-            // Fix: Explicitly provide the type for the new Set to avoid it being inferred as Set<unknown>.
+            // Fix: Explicitly type new Set() to avoid assigning Set<unknown> to Set<number>.
             setSelectedKeys(new Set<number>());
         }
     };
@@ -507,7 +536,6 @@ const ApiKeysView = ({ keys, onAdd, onDelete }) => {
 
     const handleDeleteSelected = () => {
         onDelete(Array.from(selectedKeys));
-        // Fix: Explicitly provide the type for the new Set to avoid it being inferred as Set<unknown>.
         setSelectedKeys(new Set<number>());
     };
 
@@ -517,15 +545,16 @@ const ApiKeysView = ({ keys, onAdd, onDelete }) => {
         setTimeout(() => setCopiedKeyId(null), 2000);
     };
 
+    useEffect(() => {
+        const someSelected = selectedKeys.size > 0 && selectedKeys.size < keys.length;
+        if (indeterminateCheckboxRef.current) {
+          indeterminateCheckboxRef.current.indeterminate = someSelected;
+        }
+    }, [selectedKeys, keys.length]);
+
+
     const allSelected = selectedKeys.size > 0 && selectedKeys.size === keys.length;
-    const someSelected = selectedKeys.size > 0 && selectedKeys.size < keys.length;
-
-    const indeterminateCheckboxRef = useRef<HTMLInputElement>(null);
-    if (indeterminateCheckboxRef.current) {
-      indeterminateCheckboxRef.current.indeterminate = someSelected;
-    }
-
-
+    
     return (
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
             <main className="max-w-5xl mx-auto space-y-6 bg-brand-secondary p-8 rounded-xl border border-gray-200 shadow-sm">
@@ -843,7 +872,7 @@ const Step2Content = ({ steps, onStepsChange }) => {
 };
 
 // --- NEW Component for Step 3 Content ---
-const Step3Content = ({ steps }) => {
+const Step3Content = ({ steps, onAddFlow }) => {
     const namedSteps = steps.filter(step => step.name.trim() !== '');
 
     if (namedSteps.length === 0) {
@@ -859,7 +888,7 @@ const Step3Content = ({ steps }) => {
             {namedSteps.map((step) => (
                 <div key={step.id} className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-md shadow-sm">
                     <span className="font-medium text-brand-text-primary">{step.name}</span>
-                    <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-white border border-brand-accent text-brand-accent hover:bg-brand-accent-light transition-colors">
+                    <button onClick={() => onAddFlow(step.id)} className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-white border border-brand-accent text-brand-accent hover:bg-brand-accent-light transition-colors">
                         <PlusIcon className="w-4 h-4" />
                         <span>Adicionar Fluxo de Ferramentas</span>
                     </button>
@@ -871,7 +900,7 @@ const Step3Content = ({ steps }) => {
 
 
 // --- NEW Workflow Editor View ---
-const WorkflowEditorView = ({ onBack }) => {
+const WorkflowEditorView = ({ onBack, onAddFlow }) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [workflowSteps, setWorkflowSteps] = useState([{ id: 1, name: '', profile: '' }]);
     const steps = [
@@ -932,7 +961,7 @@ const WorkflowEditorView = ({ onBack }) => {
                              <>
                                 <h3 className="text-xl font-semibold mb-4">Etapa 3: Detalhes</h3>
                                 <div className="p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 min-h-[200px]">
-                                    <Step3Content steps={workflowSteps} />
+                                    <Step3Content steps={workflowSteps} onAddFlow={onAddFlow} />
                                 </div>
                             </>
                         )}
@@ -965,9 +994,181 @@ const WorkflowEditorView = ({ onBack }) => {
     );
 };
 
+// --- NEW WORKFLOW BUILDER COMPONENTS ---
+const ConfigSidePanel = ({ node, onClose, onUpdateNode }) => {
+    if (!node) return null;
+
+    const prompts = [
+        "Resumidor",
+        "Transformador de história de usuário",
+        "Gerador de conteúdo jornalístico",
+        "Explicando detalhes principais",
+    ];
+
+    return (
+        <div className="absolute top-0 right-0 h-full w-96 bg-brand-secondary shadow-2xl z-20 border-l border-gray-200 flex flex-col transition-all duration-300">
+            <header className="p-4 border-b border-gray-200 flex justify-between items-center shrink-0">
+                <h3 className="text-lg font-semibold text-brand-text-primary">Configurar Ferramenta</h3>
+                <button onClick={onClose} className="p-1 rounded-full text-gray-400 hover:bg-gray-200 hover:text-gray-700">
+                    <XIcon className="w-5 h-5" />
+                </button>
+            </header>
+            <div className="p-6 flex-grow overflow-y-auto">
+                <div className="mb-6">
+                    <label className="text-sm font-medium text-brand-text-secondary">{node.data.label}</label>
+                </div>
+                <div className="space-y-6">
+                    <div>
+                        <label htmlFor="prompt-search" className="block text-sm font-medium text-brand-text-primary mb-2">Prompts cadastrados</label>
+                        <div className="relative">
+                           <SearchIcon className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                           <input id="prompt-search" type="text" placeholder="Buscar..." className="w-full p-2 pl-10 border border-brand-input-border rounded-lg bg-brand-input-bg"/>
+                        </div>
+                        <div className="mt-2 space-y-1 max-h-40 overflow-y-auto p-1">
+                            {prompts.map(p => <div key={p} className="p-2 text-sm rounded-md hover:bg-gray-100 cursor-pointer">{p}</div>)}
+                        </div>
+                    </div>
+                    <div>
+                        <label htmlFor="prompt-write" className="block text-sm font-medium text-brand-text-primary mb-2">Escrever Prompt</label>
+                        <textarea id="prompt-write" rows={6} className="w-full p-2 border border-brand-input-border rounded-lg bg-brand-input-bg focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const ToolNode = ({ data }) => {
+    return (
+        <div className="bg-white border-2 border-brand-accent rounded-lg shadow-md p-3 w-56 font-sans">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    {data.icon}
+                    <span className="font-semibold text-sm text-brand-text-primary">{data.label}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                    <button onClick={() => data.onSettingsClick(data.id)} className="text-gray-400 hover:text-brand-accent">
+                        <SettingsIcon className="w-5 h-5" />
+                    </button>
+                    <button onClick={() => data.onDeleteClick(data.id)} className="text-gray-400 hover:text-red-600">
+                        <XIcon className="w-5 h-5" />
+                    </button>
+                </div>
+            </div>
+            <Handle type="target" position={Position.Left} className="!bg-brand-accent !w-3 !h-3" />
+            <Handle type="source" position={Position.Right} className="!bg-brand-accent !w-3 !h-3" />
+        </div>
+    );
+};
+
+const WorkflowBuilderViewContent = ({ onBack }) => {
+    const [selectedNode, setSelectedNode] = useState(null);
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    
+    const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } }, eds)), [setEdges]);
+
+    const handleSettingsClick = useCallback((nodeId) => {
+        const node = nodes.find(n => n.id === nodeId);
+        setSelectedNode(node);
+    }, [nodes, setSelectedNode]);
+
+    const handleDeleteClick = useCallback((nodeId) => {
+        setNodes((nds) => nds.filter(node => node.id !== nodeId));
+    }, [setNodes]);
+
+    const nodeTypes = useMemo(() => ({ tool: ToolNode }), []);
+
+    useEffect(() => {
+        const initialNodes = [
+            { id: '1', type: 'tool', position: { x: 50, y: 200 }, data: { id: '1', label: 'Início', icon: <PlayIcon className="text-blue-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
+            { id: '2', type: 'tool', position: { x: 350, y: 200 }, data: { id: '2', label: 'OCR Padrão', icon: <ScanIcon className="text-green-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
+            { id: '3', type: 'tool', position: { x: 650, y: 100 }, data: { id: '3', label: 'Embeddings de Contratos', icon: <LinkIcon className="text-purple-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
+            { id: '4', type: 'tool', position: { x: 650, y: 300 }, data: { id: '4', label: 'Extrair Dados de NF-e', icon: <FileTextIcon className="text-orange-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
+        ];
+        const initialEdges = [
+            { id: 'e1-2', source: '1', target: '2', type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } },
+            { id: 'e2-3', source: '2', target: '3', type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } },
+            { id: 'e2-4', source: '2', target: '4', type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } },
+        ];
+        setNodes(initialNodes);
+        setEdges(initialEdges);
+    }, [handleSettingsClick, handleDeleteClick, setNodes, setEdges]);
+
+
+    const availableTools = [
+        { name: 'Início', icon: <PlayIcon /> }, { name: 'OCR Padrão', icon: <ScanIcon /> },
+        { name: 'Embeddings de Contratos', icon: <LinkIcon /> }, { name: 'Resumidor de E-mails', icon: <MailIcon /> },
+        { name: 'Extrair Dados de NF-e', icon: <FileTextIcon /> }, { name: 'Enviar para ERP', icon: <PaperAirplaneIcon /> },
+        { name: 'Finalizar Fluxo', icon: <FlagIcon /> },
+    ];
+
+    return (
+        <div className="flex flex-col h-full w-full bg-brand-primary">
+            <header className="bg-brand-secondary p-3 border-b border-gray-200 flex justify-between items-center shrink-0">
+                <div className="flex items-center gap-4">
+                    <button onClick={onBack} className="flex items-center gap-2 font-semibold text-brand-text-secondary hover:text-brand-text-primary">
+                        <ChevronLeftIcon /> Voltar
+                    </button>
+                    <div className="h-6 w-px bg-gray-200"></div>
+                    <div className="flex items-center gap-2">
+                        <h1 className="text-lg font-semibold text-brand-text-primary">Fluxo de Automação: Recebimento</h1>
+                        <button className="text-gray-400 hover:text-gray-700 p-1"><EditIcon className="w-4 h-4"/></button>
+                    </div>
+                </div>
+                <div className="flex items-center gap-2">
+                    <button className="px-4 py-2 text-sm font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors flex items-center gap-2">
+                        <SaveIcon /> Salvar
+                    </button>
+                    <button className="px-4 py-2 text-sm font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors flex items-center gap-2">
+                        <DownloadIcon /> Baixar JSON
+                    </button>
+                    <button className="px-4 py-2 text-sm font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors flex items-center gap-2">
+                        <UploadIcon /> Upload
+                    </button>
+                </div>
+            </header>
+            <main className="flex-grow relative">
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    nodeTypes={nodeTypes}
+                    fitView
+                >
+                    {/* Fix: Use the BackgroundVariant enum instead of a string literal for the variant prop. */}
+                    <Background variant={BackgroundVariant.Dots} gap={16} size={1} />
+                    <Controls />
+                    <MiniMap />
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-white p-1.5 rounded-lg shadow-md flex items-center gap-1 border border-gray-200">
+                        <button className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 text-sm font-medium text-brand-text-secondary">
+                            <EyeOffIcon /> Ocultar Ferramentas
+                        </button>
+                        <div className="h-6 w-px bg-gray-200 mx-1"></div>
+                        {availableTools.map(tool => (
+                            <button key={tool.name} className="flex items-center gap-2 p-2 rounded-md text-sm text-brand-text-secondary hover:bg-gray-100 font-medium border border-transparent hover:border-gray-200">
+                                {React.cloneElement(tool.icon, { className: 'w-5 h-5' })}
+                                {tool.name}
+                            </button>
+                        ))}
+                    </div>
+                </ReactFlow>
+                <ConfigSidePanel node={selectedNode} onClose={() => setSelectedNode(null)} onUpdateNode={() => {}} />
+            </main>
+        </div>
+    );
+};
+
+const WorkflowBuilderView = ({ onBack }) => (
+    <ReactFlowProvider>
+        <WorkflowBuilderViewContent onBack={onBack} />
+    </ReactFlowProvider>
+);
 
 // --- Main App Component (Welcome Page) ---
-const App: React.FC = () => {
+const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeView, setActiveView] = useState('Home');
     const [isEditingOrCreatingWorkflow, setIsEditingOrCreatingWorkflow] = useState(false);
@@ -995,13 +1196,18 @@ const App: React.FC = () => {
         setActiveView(viewName);
     };
 
+    const handleEditFlow = (stepId: number) => {
+        // Per user request, routing from this button has been removed.
+        console.log(`"Adicionar Fluxo de Ferramentas" clicked for step ${stepId}, but navigation is disabled.`);
+    };
+
     const renderContent = () => {
         switch(activeView) {
             case 'Gerenciar Chaves':
                 return <ApiKeysView keys={apiKeys} onAdd={handleAddApiKey} onDelete={handleDeleteApiKeys} />;
             case 'Gestão de Workflows':
                 return isEditingOrCreatingWorkflow ? 
-                    <WorkflowEditorView onBack={() => setIsEditingOrCreatingWorkflow(false)} /> : 
+                    <WorkflowEditorView onBack={() => setIsEditingOrCreatingWorkflow(false)} onAddFlow={handleEditFlow}/> : 
                     <WorkflowManagementView 
                         onNewWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
                         onEditWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
@@ -1028,7 +1234,7 @@ const App: React.FC = () => {
             {/* Floating Action Button for Support */}
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="fixed bottom-6 right-6 bg-brand-accent text-white p-4 rounded-full shadow-lg hover:bg-brand-accent-hover transition-transform transform hover:scale-110"
+                className="fixed bottom-6 right-6 bg-brand-accent text-white p-4 rounded-full shadow-lg hover:bg-brand-accent-hover transition-transform transform hover:scale-110 z-30"
                 aria-label="Abrir formulário de feedback e suporte"
             >
                 <SupportIcon />
