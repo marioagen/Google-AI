@@ -1,11 +1,12 @@
 
+
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 
 // --- Reusable SVG Icons ---
 
 const CopyIcon = ({ className = "w-5 h-5" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 4.625v2.625a2.625 2.625 0 11-5.25 0v-2.625m0 0V15.75m0 0v-2.625A2.625 2.625 0 0112 10.5h.375a2.625 2.625 0 012.625 2.625v2.625" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5 .124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 4.625v2.625a2.625 2.625 0 11-5.25 0v-2.625m0 0V15.75m0 0v-2.625A2.625 2.625 0 0112 10.5h.375a2.625 2.625 0 012.625 2.625v2.625" />
   </svg>
 );
 
@@ -74,7 +75,7 @@ const UsersIcon = ({ className = "w-6 h-6" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
 );
 const DocumentIcon = ({ className = "w-6 h-6" }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
 );
 const WorkflowIcon = ({ className = "w-6 h-6" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="14" width="7" height="7" rx="2" ry="2"></rect><rect x="14" y="3" width="7" height="7" rx="2" ry="2"></rect><path d="M17.5 10.5h-4a2 2 0 0 0-2 2v4"></path></svg>
@@ -96,6 +97,33 @@ const ToolsIcon = ({ className = "w-6 h-6" }) => (
 );
 const PromptsIcon = ({ className = "w-6 h-6" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg>
+);
+
+// --- NEW ICONS for Workflow Management ---
+const PlusIcon = ({ className = "w-5 h-5" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
+);
+const SearchIcon = ({ className = "w-5 h-5" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+);
+const SortIcon = ({ className = "w-4 h-4" }) => (
+     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+    </svg>
+);
+const TeamIcon = ({ className = "w-4 h-4" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+    </svg>
+);
+const MoreIcon = ({ className = "w-5 h-5" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h.01M12 12h.01M19 12h.01" />
+    </svg>
 );
 
 
@@ -348,7 +376,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
         { name: 'Gestão de usuários', icon: <UsersIcon />, color: 'text-orange-500' },
         { name: 'Documentos', icon: <DocumentIcon />, color: 'text-blue-500' },
         { name: 'Workflow', icon: <WorkflowIcon />, color: 'text-purple-500' },
-        { name: 'Editor de Workflow', icon: <WorkflowEditorIcon />, color: 'text-teal-500' },
+        { name: 'Gestão de Workflows', icon: <WorkflowEditorIcon />, color: 'text-teal-500' },
         { name: 'Tipos', icon: <TypesIcon />, color: 'text-yellow-500' },
         { name: 'Perguntas', icon: <QuestionsIcon />, color: 'text-green-500' },
         { name: 'Questionários', icon: <QuestionnairesIcon />, color: 'text-indigo-500' },
@@ -599,12 +627,350 @@ const ApiKeysView = ({ keys, onAdd, onDelete }) => {
     );
 };
 
+// --- NEW Workflow Management View ---
+const WorkflowManagementView = ({ onNewWorkflow, onEditWorkflow }) => {
+    const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+
+    const workflows = [
+      { id: 2, name: 'Análise de Documentos Fiscais', teams: ['Financeiro', 'Contabilidade'] },
+      { id: 1, name: 'Aprovação de Contratos', teams: ['Jurídico', 'Financeiro'] },
+      { id: 4, name: 'Processamento de Relatórios', teams: ['Marketing', 'Desenvolvimento'] },
+      { id: 3, name: 'Revisão de Políticas Internas', teams: ['RH', 'Jurídico'] },
+      { id: 5, name: 'Validação de Certificados', teams: ['RH', 'Qualidade'] },
+    ];
+
+    const handleToggleMenu = (id: number) => {
+        setOpenMenuId(prevId => (prevId === id ? null : id));
+    };
+
+    return (
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <main className="max-w-7xl mx-auto space-y-6">
+                <header className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-3xl font-bold text-brand-text-primary">Gestão de Workflows</h1>
+                        <p className="text-brand-text-secondary mt-1">Gerencie e configure workflows de processamento de documentos</p>
+                    </div>
+                    <button onClick={onNewWorkflow} className="bg-brand-accent text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold hover:bg-brand-accent-hover transition-colors">
+                        <PlusIcon className="w-5 h-5" />
+                        <span>Novo Workflow</span>
+                    </button>
+                </header>
+
+                <div className="relative">
+                    <SearchIcon className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input 
+                        type="text"
+                        placeholder="Buscar por nome do workflow ou times..."
+                        className="w-full p-3 pl-12 border border-brand-input-border rounded-lg bg-brand-secondary focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
+                    />
+                </div>
+
+                <div className="bg-brand-secondary rounded-lg border border-gray-200 shadow-sm">
+                    <div className="p-4 border-b border-gray-200">
+                        <h2 className="font-semibold text-brand-text-primary">Workflows ({workflows.length})</h2>
+                    </div>
+
+                    {/* Table Header */}
+                    <div className="grid grid-cols-12 gap-4 px-4 py-3 text-xs font-bold text-brand-text-secondary uppercase tracking-wider bg-gray-50">
+                        <div className="col-span-1">ID</div>
+                        <div className="col-span-4 flex items-center gap-1 cursor-pointer">
+                            Nome do Workflow <SortIcon />
+                        </div>
+                        <div className="col-span-6 flex items-center gap-1 cursor-pointer">
+                            Times Associados <SortIcon />
+                        </div>
+                        <div className="col-span-1 text-right">Ações</div>
+                    </div>
+                    
+                    {/* Table Body */}
+                    <div>
+                        {workflows.map(wf => (
+                            <div key={wf.id} className="grid grid-cols-12 gap-4 px-4 py-4 border-t border-gray-200 items-center text-sm">
+                                <div className="col-span-1 text-brand-text-secondary">{wf.id}</div>
+                                <div className="col-span-4 font-medium text-brand-text-primary flex items-center">
+                                    {wf.name}
+                                </div>
+                                <div className="col-span-6 flex flex-wrap gap-2">
+                                    {wf.teams.map(team => (
+                                        <span key={team} className="flex items-center gap-1.5 bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded-md border border-gray-200">
+                                            <TeamIcon className="w-4 h-4 text-gray-500" />
+                                            {team}
+                                        </span>
+                                    ))}
+                                </div>
+                                <div className="col-span-1 flex justify-end">
+                                    <div className="relative">
+                                        <button onClick={() => handleToggleMenu(wf.id)} className="text-gray-500 hover:text-brand-text-primary p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-accent">
+                                            <MoreIcon />
+                                        </button>
+                                        {openMenuId === wf.id && (
+                                            <div className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-10 border border-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                                <div className="py-1">
+                                                    <a href="#" onClick={(e) => { e.preventDefault(); onEditWorkflow(wf.id); setOpenMenuId(null); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Editar</a>
+                                                    <a href="#" className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" role="menuitem">Deletar</a>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+};
+
+
+// --- NEW Component for Step 1 Content ---
+const Step1Content = () => {
+    const teams = [
+        'Jurídico', 'Financeiro', 'RH', 'Marketing',
+        'Desenvolvimento', 'Contabilidade', 'Qualidade'
+    ];
+
+    return (
+        <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-brand-text-primary">Informações Básicas</h3>
+            <div className="space-y-4">
+                <div>
+                    <label htmlFor="workflow-name" className="block text-sm font-medium text-brand-text-secondary mb-1">
+                        Nome do Workflow
+                    </label>
+                    <input
+                        type="text"
+                        id="workflow-name"
+                        placeholder="Ex: Aprovação de Contratos"
+                        className="w-full p-3 border border-brand-input-border rounded-lg bg-brand-input-bg focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-brand-text-secondary mb-2">
+                        Times Associados
+                    </label>
+                    <div className="p-4 border border-brand-input-border rounded-lg">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4">
+                            {teams.map(team => (
+                                <div key={team} className="flex items-center">
+                                    <input
+                                        id={`team-${team}`}
+                                        type="checkbox"
+                                        className="h-4 w-4 rounded border-gray-300 text-brand-accent focus:ring-brand-accent"
+                                    />
+                                    <label htmlFor={`team-${team}`} className="ml-3 text-sm text-brand-text-primary">
+                                        {team}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// --- NEW Component for Step 2 Content ---
+const Step2Content = ({ steps, onStepsChange }) => {
+    const profiles = ['Analista', 'Gerente', 'Diretor', 'Qualidade'];
+
+    const handleAddStep = () => {
+        const newStep = { id: Date.now(), name: '', profile: '' };
+        onStepsChange([...steps, newStep]);
+    };
+
+    const handleRemoveStep = (idToRemove: number) => {
+        onStepsChange(steps.filter(step => step.id !== idToRemove));
+    };
+
+    const handleStepChange = (id: number, field: 'name' | 'profile', value: string) => {
+        onStepsChange(steps.map(step => 
+            step.id === id ? { ...step, [field]: value } : step
+        ));
+    };
+
+    return (
+        <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-brand-text-primary">Configuração das Etapas</h3>
+            <div className="space-y-4 p-4 border border-brand-input-border rounded-lg bg-gray-50/50">
+                {steps.map((step, index) => (
+                    <div key={step.id} className="flex items-center gap-4 p-3 bg-white border rounded-md shadow-sm">
+                        <span className="font-bold text-gray-500">{index + 1}.</span>
+                        <div className="flex-grow">
+                            <label htmlFor={`step-name-${step.id}`} className="sr-only">Nome da Etapa</label>
+                            <input
+                                type="text"
+                                id={`step-name-${step.id}`}
+                                value={step.name}
+                                onChange={(e) => handleStepChange(step.id, 'name', e.target.value)}
+                                placeholder="Nome da Etapa"
+                                className="w-full p-2 border border-brand-input-border rounded-md bg-brand-input-bg focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
+                            />
+                        </div>
+                        <div className="w-1/3">
+                             <label htmlFor={`step-profile-${step.id}`} className="sr-only">Perfil Responsável</label>
+                             <select
+                                id={`step-profile-${step.id}`}
+                                value={step.profile}
+                                onChange={(e) => handleStepChange(step.id, 'profile', e.target.value)}
+                                className="w-full p-2 border border-brand-input-border rounded-md bg-white focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
+                             >
+                                <option value="" disabled>Selecione um perfil</option>
+                                {profiles.map(p => <option key={p} value={p}>{p}</option>)}
+                             </select>
+                        </div>
+                        <button 
+                            onClick={() => handleRemoveStep(step.id)} 
+                            disabled={steps.length <= 1}
+                            className="p-2 text-red-500 hover:bg-red-100 rounded-full disabled:text-gray-300 disabled:hover:bg-transparent disabled:cursor-not-allowed"
+                            aria-label="Remover Etapa"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                ))}
+            </div>
+            <button onClick={handleAddStep} className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg text-brand-accent font-semibold hover:bg-brand-accent-light hover:border-brand-accent transition-colors flex items-center justify-center gap-2">
+                 <PlusIcon className="w-5 h-5" />
+                Adicionar Nova Etapa
+            </button>
+        </div>
+    );
+};
+
+// --- NEW Component for Step 3 Content ---
+const Step3Content = ({ steps }) => {
+    const namedSteps = steps.filter(step => step.name.trim() !== '');
+
+    if (namedSteps.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <p className="text-gray-500">Volte para a Etapa 2 para adicionar e nomear as etapas do seu workflow.</p>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="space-y-3 text-left">
+            {namedSteps.map((step) => (
+                <div key={step.id} className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-md shadow-sm">
+                    <span className="font-medium text-brand-text-primary">{step.name}</span>
+                    <button className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-white border border-brand-accent text-brand-accent hover:bg-brand-accent-light transition-colors">
+                        <PlusIcon className="w-4 h-4" />
+                        <span>Adicionar Fluxo de Ferramentas</span>
+                    </button>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+
+// --- NEW Workflow Editor View ---
+const WorkflowEditorView = ({ onBack }) => {
+    const [currentStep, setCurrentStep] = useState(1);
+    const [workflowSteps, setWorkflowSteps] = useState([{ id: 1, name: '', profile: '' }]);
+    const steps = [
+        { id: 1, title: 'Step 1' },
+        { id: 2, title: 'Step 2' },
+        { id: 3, title: 'Step 3' },
+    ];
+
+    return (
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <main className="max-w-7xl mx-auto space-y-6">
+                <header className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-3xl font-bold text-brand-text-primary">Criar / Editar Workflow</h1>
+                        <p className="text-brand-text-secondary mt-1">Siga as etapas para configurar seu workflow.</p>
+                    </div>
+                    <button onClick={onBack} className="bg-gray-200 text-brand-text-primary px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
+                        Voltar para a Lista
+                    </button>
+                </header>
+
+                <div className="bg-brand-secondary p-8 rounded-lg border border-gray-200 shadow-sm">
+                    {/* Stepper */}
+                    <div className="flex justify-center">
+                        {steps.map((step, index) => {
+                            const isActive = currentStep === step.id;
+                            const isFirst = index === 0;
+                            const bgColor = isActive ? 'bg-brand-accent' : 'bg-gray-500';
+                            
+                            const clipPath = 'polygon(0% 0%, 85% 0, 100% 50%, 85% 100%, 0% 100%)';
+                            const stepWidthRem = 12; // Corresponds to w-48
+                            const overlapRem = stepWidthRem * 0.15;
+
+                            return (
+                                <div
+                                    key={step.id}
+                                    className={`relative h-10 w-48 flex items-center justify-center text-sm font-medium text-white ${bgColor}`}
+                                    style={{
+                                        clipPath,
+                                        marginLeft: isFirst ? 0 : `-${overlapRem}rem`, 
+                                        zIndex: steps.length - index,
+                                    }}
+                                >
+                                    <span style={{ paddingLeft: isFirst ? 0 : `${overlapRem}rem` }}>
+                                        {step.title}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+
+                    {/* Step content */}
+                    <div className="mt-8 border-t pt-8">
+                        {currentStep === 1 && <Step1Content />}
+                        {currentStep === 2 && <Step2Content steps={workflowSteps} onStepsChange={setWorkflowSteps} />}
+                        {currentStep === 3 && (
+                             <>
+                                <h3 className="text-xl font-semibold mb-4">Etapa 3: Detalhes</h3>
+                                <div className="p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 min-h-[200px]">
+                                    <Step3Content steps={workflowSteps} />
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Navigation */}
+                    <div className="flex justify-between mt-8">
+                         <button 
+                            onClick={() => setCurrentStep(s => Math.max(1, s - 1))}
+                            disabled={currentStep === 1}
+                            className="px-6 py-2 font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed">
+                            Anterior
+                        </button>
+                        {currentStep < steps.length ? (
+                            <button 
+                                onClick={() => setCurrentStep(s => Math.min(steps.length, s + 1))}
+                                className="px-6 py-2 font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors">
+                                Próximo
+                            </button>
+                        ) : (
+                             <button 
+                                className="px-6 py-2 font-semibold rounded-lg bg-brand-success text-white hover:bg-green-600 transition-colors">
+                                Salvar Workflow
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+};
+
 
 // --- Main App Component (Welcome Page) ---
-
 const App: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeView, setActiveView] = useState('Home');
+    const [isEditingOrCreatingWorkflow, setIsEditingOrCreatingWorkflow] = useState(false);
     const [apiKeys, setApiKeys] = useState([
         { id: 1, name: 'testemkt', value: 'w-ai-7g2f9k4h1j8l3n5m0p' + Math.random().toString(36).substring(2, 15) },
         { id: 2, name: 'grigio',   value: 'w-ai-a8b3c1d5e7f9g2h4i' + Math.random().toString(36).substring(2, 15) },
@@ -623,11 +989,23 @@ const App: React.FC = () => {
     const handleDeleteApiKeys = (idsToDelete: number[]) => {
         setApiKeys(prevKeys => prevKeys.filter(key => !idsToDelete.includes(key.id)));
     };
+    
+    const handleSetActiveView = (viewName: string) => {
+        setIsEditingOrCreatingWorkflow(false); // Reset workflow view when changing main view
+        setActiveView(viewName);
+    };
 
     const renderContent = () => {
         switch(activeView) {
             case 'Gerenciar Chaves':
                 return <ApiKeysView keys={apiKeys} onAdd={handleAddApiKey} onDelete={handleDeleteApiKeys} />;
+            case 'Gestão de Workflows':
+                return isEditingOrCreatingWorkflow ? 
+                    <WorkflowEditorView onBack={() => setIsEditingOrCreatingWorkflow(false)} /> : 
+                    <WorkflowManagementView 
+                        onNewWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
+                        onEditWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
+                    />;
             case 'Home':
             default:
                 return <WelcomeContent />;
@@ -637,7 +1015,7 @@ const App: React.FC = () => {
     return (
         <>
             <div className="flex h-screen bg-brand-primary font-sans">
-                <Sidebar activeItem={activeView} setActiveItem={setActiveView} />
+                <Sidebar activeItem={activeView} setActiveItem={handleSetActiveView} />
                 
                 <div className="flex-1 flex flex-col">
                      <div className="overflow-y-auto">
