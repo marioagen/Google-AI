@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, FormEvent, ChangeEvent, useCallback, useMemo, useEffect } from 'react';
 import ReactFlow, {
     useNodesState,
@@ -904,9 +905,9 @@ const WorkflowEditorView = ({ onBack, onAddFlow }) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [workflowSteps, setWorkflowSteps] = useState([{ id: 1, name: '', profile: '' }]);
     const steps = [
-        { id: 1, title: 'Step 1' },
-        { id: 2, title: 'Step 2' },
-        { id: 3, title: 'Step 3' },
+        { id: 1, title: 'Nome e Associações' },
+        { id: 2, title: 'Etapas' },
+        { id: 3, title: 'Ferramentas' },
     ];
 
     return (
