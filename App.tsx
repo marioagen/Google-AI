@@ -152,16 +152,35 @@ const SaveAltIcon = ({ className = "w-5 h-5" }) => (
 const DownloadIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>;
 const UploadIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4 4m0 0l4-4m-4 4V4" /></svg>;
 const EyeOffIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a9.97 9.97 0 01-1.563 3.029m-2.201-4.209a3 3 0 00-4.243-4.243" /></svg>;
-const PlayIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+const PlayIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>;
 const ScanIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v1m6 11h2m-6.5-1.5l-2.828 2.828a4 4 0 01-5.657-5.657l2.829-2.828a4 4 0 015.656 0l2.828 2.828a4 4 0 010 5.657z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
 const LinkIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>;
 const FileTextIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>;
 const MailIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>;
-const PaperAirplaneIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>;
-const FlagIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6H8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" /></svg>;
+const PaperAirplaneIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>;
+const FlagIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>;
 const SettingsIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
 const XIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>;
 const EditIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
+
+
+// --- NEW ICONS FOR AUTOMATION FLOW PAGE ---
+const OcrIcon = ({ className = "w-4 h-4" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+    </svg>
+);
+const DatabaseIcon = ({ className = "w-4 h-4" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7m0 0c0 2.21-3.582 4-8 4S4 9.21 4 7m16 0a8 8 0 00-16 0" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 11a8 8 0 0116 0" />
+    </svg>
+);
+const DocumentPlusIcon = ({ className = "w-5 h-5" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+    </svg>
+);
 
 
 // --- Faithfull reimplementation of the provided HTML/JS modal ---
@@ -414,6 +433,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
         { name: 'Documentos', icon: <DocumentIcon />, color: 'text-blue-500' },
         { name: 'Workflow', icon: <WorkflowIcon />, color: 'text-purple-500' },
         { name: 'Gestão de Workflows', icon: <WorkflowEditorIcon />, color: 'text-teal-500' },
+        { name: 'Fluxo de automação exemplo', icon: <WorkflowIcon />, color: 'text-cyan-500' },
         { name: 'Tipos', icon: <TypesIcon />, color: 'text-yellow-500' },
         { name: 'Perguntas', icon: <QuestionsIcon />, color: 'text-green-500' },
         { name: 'Questionários', icon: <QuestionnairesIcon />, color: 'text-indigo-500' },
@@ -1215,6 +1235,137 @@ const WorkflowBuilderView = ({ onBack }) => (
     </ReactFlowProvider>
 );
 
+// --- NEW STATIC AUTOMATION FLOW EXAMPLE PAGE ---
+const StaticAutomationFlow = () => {
+    const tools = [
+        { name: 'Início', icon: <PlayIcon className="w-4 h-4" />, active: true },
+        { name: 'OCR Padrão', icon: <OcrIcon className="w-4 h-4" /> },
+        { name: 'Embeddings de Contratos', icon: <FileTextIcon className="w-4 h-4" /> },
+        { name: 'Resumidor de E-mails', icon: <MailIcon className="w-4 h-4" /> },
+        { name: 'Extrair Dados de NF-e', icon: <FileTextIcon className="w-4 h-4" /> },
+        { name: 'Enviar para ERP', icon: <PaperAirplaneIcon className="w-4 h-4" /> },
+        { name: 'Finalizar fluxo', icon: <FlagIcon className="w-4 h-4" /> },
+    ];
+    
+    // Hardcoded node data based on the user's HTML example
+    const flowNodes = [
+        {
+            id: 'inicio',
+            style: { left: '100px', top: '100px' },
+            widthClass: 'w-48',
+            icon: <PlayIcon className="w-5 h-5 text-blue-600" />,
+            label: 'Início',
+        },
+        {
+            id: 'ocr',
+            style: { left: '350px', top: '50px' },
+            widthClass: 'w-56',
+            icon: <OcrIcon className="w-5 h-5 text-blue-600" />,
+            label: 'OCR Padrão',
+        },
+        {
+            id: 'embeddings',
+            style: { left: '650px', top: '20px' },
+            widthClass: 'w-64',
+            icon: <FileTextIcon className="w-5 h-5 text-blue-600" />,
+            label: 'Embeddings de Contratos',
+        },
+        {
+            id: 'nfe',
+            style: { left: '650px', top: '200px' },
+            widthClass: 'w-64',
+            icon: <FileTextIcon className="w-5 h-5 text-blue-600" />,
+            label: 'Extrair Dados de NF-e',
+        },
+    ];
+
+    // Hardcoded SVG paths to connect the nodes
+    // M startX startY C cp1X cp1Y, cp2X cp2Y, endX endY
+    const connections = [
+        { from: 'inicio', to: 'ocr', path: 'M 292 138 C 321 138, 321 83, 350 83' }, // inicio -> ocr
+        { from: 'ocr', to: 'embeddings', path: 'M 574 83 C 612 83, 612 58, 650 58' }, // ocr -> embeddings
+        { from: 'inicio', to: 'nfe', path: 'M 292 138 C 471 138, 471 238, 650 238' }, // inicio -> nfe
+    ];
+
+    return (
+        <div className="flex flex-col h-full w-full bg-gray-50 font-sans">
+            <header className="bg-white border-b border-gray-200 px-6 py-4 shrink-0">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                            <ChevronLeftIcon className="w-5 h-5" />
+                            Voltar
+                        </button>
+                        <h1 className="text-xl font-semibold text-gray-900">Fluxo de Automação: Recebimento</h1>
+                        <button className="text-gray-400 hover:text-gray-600">
+                            <EditIcon className="w-5 h-5" />
+                        </button>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
+                            <SaveIcon className="w-4 h-4" />
+                            Incluir
+                        </button>
+                        <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+                            <DownloadIcon className="w-4 h-4" />
+                            Baixar JSON
+                        </button>
+                        <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+                            <UploadIcon className="w-4 h-4" />
+                            Upload
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div className="bg-white border-b border-gray-200 px-6 py-3 shrink-0">
+                <div className="flex items-center gap-3">
+                    <button className="px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 flex items-center gap-2">
+                        <XIcon className="w-4 h-4" />
+                        Ocultar Ferramentas
+                    </button>
+                </div>
+            </div>
+
+            <div className="px-6 py-4 flex items-center gap-3 flex-wrap shrink-0">
+                {tools.map(tool => (
+                    <button key={tool.name} className={`px-4 py-2 border rounded-lg flex items-center gap-2 transition-colors ${
+                        tool.active ? 'bg-blue-50 border-2 border-blue-500 text-blue-600' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                    }`}>
+                        {tool.icon}
+                        {tool.name}
+                    </button>
+                ))}
+            </div>
+
+            <main className="flex-grow relative px-6 py-8">
+                <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-[1]">
+                    {connections.map(conn => (
+                        <path key={`${conn.from}-${conn.to}`} d={conn.path} fill="none" stroke="#3b82f6" strokeWidth="2" />
+                    ))}
+                </svg>
+                <div className="relative z-[2] h-full">
+                    {flowNodes.map(node => (
+                        <div key={node.id} className={`absolute bg-white rounded-lg shadow-lg border border-gray-200 p-4 ${node.widthClass}`} style={node.style}>
+                            <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                    {node.icon}
+                                    <span className="font-medium text-gray-900">{node.label}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <button className="text-gray-400 hover:text-gray-600"><SettingsIcon /></button>
+                                    <button className="text-gray-400 hover:text-red-600"><XIcon /></button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </main>
+        </div>
+    );
+};
+
+
 // --- Main App Component (Welcome Page) ---
 const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1260,6 +1411,8 @@ const App = () => {
                         onNewWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
                         onEditWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
                     />;
+            case 'Fluxo de automação exemplo':
+                return <StaticAutomationFlow />;
             case 'Home':
             default:
                 return <WelcomeContent />;
@@ -1272,7 +1425,7 @@ const App = () => {
                 <Sidebar activeItem={activeView} setActiveItem={handleSetActiveView} />
                 
                 <div className="flex-1 flex flex-col">
-                     <div className="overflow-y-auto">
+                     <div className="overflow-y-auto h-full">
                         {renderContent()}
                     </div>
                 </div>
