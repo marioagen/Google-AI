@@ -1,4 +1,5 @@
 
+
 import React, { useState, useRef, FormEvent, ChangeEvent, useCallback, useMemo, useEffect } from 'react';
 import ReactFlow, {
     useNodesState,
@@ -141,6 +142,13 @@ const MoreIcon = ({ className = "w-5 h-5" }) => (
 // --- NEW ICONS for Workflow Builder ---
 const ChevronLeftIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
 const SaveIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>;
+const SaveAltIcon = ({ className = "w-5 h-5" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25h12A2.25 2.25 0 0020.25 18V8.25L15.75 3.75z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a3.75 3.75 0 003.75-3.75H8.25A3.75 3.75 0 0012 18.75z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.375 9.75h-6" />
+    </svg>
+);
 const DownloadIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>;
 const UploadIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4 4m0 0l4-4m-4 4V4" /></svg>;
 const EyeOffIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a9.97 9.97 0 01-1.563 3.029m-2.201-4.209a3 3 0 00-4.243-4.243" /></svg>;
@@ -804,10 +812,17 @@ const Step1Content = () => {
 
 // --- NEW Component for Step 2 Content ---
 const Step2Content = ({ steps, onStepsChange }) => {
-    const profiles = ['Analista', 'Gerente', 'Diretor', 'Qualidade'];
+    const profiles = ['Advogado Sênior', 'Gerente Financeiro', 'Analista Jurídico', 'Analista Financeiro', 'Diretor Jurídico', 'Diretor Financeiro', 'Qualidade'];
 
     const handleAddStep = () => {
-        const newStep = { id: Date.now(), name: '', profile: '' };
+        const newStepNumbers = steps
+            .map(s => s.name)
+            .filter(name => name.startsWith('Nova Etapa'))
+            .map(name => parseInt(name.replace('Nova Etapa', '').trim(), 10))
+            .filter(num => !isNaN(num));
+        const nextNum = newStepNumbers.length > 0 ? Math.max(...newStepNumbers) + 1 : 1;
+
+        const newStep = { id: Date.now(), name: `Nova Etapa ${nextNum}`, profile: '' };
         onStepsChange([...steps, newStep]);
     };
 
@@ -816,85 +831,123 @@ const Step2Content = ({ steps, onStepsChange }) => {
     };
 
     const handleStepChange = (id: number, field: 'name' | 'profile', value: string) => {
-        onStepsChange(steps.map(step => 
+        onStepsChange(steps.map(step =>
             step.id === id ? { ...step, [field]: value } : step
         ));
     };
 
     return (
         <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-brand-text-primary">Configuração das Etapas</h3>
-            <div className="space-y-4 p-4 border border-brand-input-border rounded-lg bg-gray-50/50">
+            <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-brand-text-primary">Etapas do Workflow</h2>
+                <button onClick={handleAddStep} className="bg-brand-accent text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold hover:bg-brand-accent-hover transition-colors">
+                    <PlusIcon className="w-5 h-5" />
+                    <span>Nova Etapa</span>
+                </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {steps.map((step, index) => (
-                    <div key={step.id} className="flex items-center gap-4 p-3 bg-white border rounded-md shadow-sm">
-                        <span className="font-bold text-gray-500">{index + 1}.</span>
+                    <div key={step.id} className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 space-y-4 flex flex-col">
+                        <div className="flex justify-between items-start">
+                             <div className="flex items-center gap-3 flex-grow min-w-0">
+                                <span className="flex items-center justify-center w-6 h-6 bg-brand-accent text-white rounded-full font-bold text-sm flex-shrink-0">
+                                    {index + 1}
+                                </span>
+                                <input
+                                    type="text"
+                                    value={step.name}
+                                    onChange={(e) => handleStepChange(step.id, 'name', e.target.value)}
+                                    placeholder="Nome da Etapa"
+                                    className="font-semibold text-brand-text-primary bg-transparent focus:outline-none focus:ring-0 border-0 p-0 w-full"
+                                    aria-label="Nome da Etapa"
+                                />
+                            </div>
+                            <button onClick={() => handleRemoveStep(step.id)} className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0">
+                                <XIcon className="w-5 h-5" />
+                            </button>
+                        </div>
                         <div className="flex-grow">
-                            <label htmlFor={`step-name-${step.id}`} className="sr-only">Nome da Etapa</label>
-                            <input
-                                type="text"
-                                id={`step-name-${step.id}`}
-                                value={step.name}
-                                onChange={(e) => handleStepChange(step.id, 'name', e.target.value)}
-                                placeholder="Nome da Etapa"
-                                className="w-full p-2 border border-brand-input-border rounded-md bg-brand-input-bg focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
-                            />
+                            <label htmlFor={`step-profile-${step.id}`} className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                RESPONSÁVEL
+                            </label>
+                            <div className="relative mt-1">
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                  <TeamIcon className="w-5 h-5 text-gray-400" />
+                                </span>
+                                <select
+                                    id={`step-profile-${step.id}`}
+                                    value={step.profile}
+                                    onChange={(e) => handleStepChange(step.id, 'profile', e.target.value)}
+                                    className="w-full pl-10 pr-10 py-2 border border-brand-input-border rounded-md bg-white focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent appearance-none"
+                                >
+                                    <option value="" disabled>Selecione um perfil</option>
+                                    {profiles.map(p => <option key={p} value={p}>{p}</option>)}
+                                </select>
+                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                                </div>
+                            </div>
                         </div>
-                        <div className="w-1/3">
-                             <label htmlFor={`step-profile-${step.id}`} className="sr-only">Perfil Responsável</label>
-                             <select
-                                id={`step-profile-${step.id}`}
-                                value={step.profile}
-                                onChange={(e) => handleStepChange(step.id, 'profile', e.target.value)}
-                                className="w-full p-2 border border-brand-input-border rounded-md bg-white focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
-                             >
-                                <option value="" disabled>Selecione um perfil</option>
-                                {profiles.map(p => <option key={p} value={p}>{p}</option>)}
-                             </select>
-                        </div>
-                        <button 
-                            onClick={() => handleRemoveStep(step.id)} 
-                            disabled={steps.length <= 1}
-                            className="p-2 text-red-500 hover:bg-red-100 rounded-full disabled:text-gray-300 disabled:hover:bg-transparent disabled:cursor-not-allowed"
-                            aria-label="Remover Etapa"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                            </svg>
-                        </button>
                     </div>
                 ))}
+
+                <div
+                    onClick={handleAddStep}
+                    className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center p-4 min-h-[190px] text-center cursor-pointer hover:bg-gray-50 hover:border-brand-accent transition-colors group"
+                >
+                    <div className="w-12 h-12 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center mb-3 group-hover:border-brand-accent">
+                        <PlusIcon className="w-6 h-6 text-gray-400 group-hover:text-brand-accent" />
+                    </div>
+                    <p className="font-semibold text-brand-text-primary">Adicionar Etapa</p>
+                    <p className="text-sm text-brand-text-secondary">Clique para criar uma nova etapa</p>
+                </div>
             </div>
-            <button onClick={handleAddStep} className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg text-brand-accent font-semibold hover:bg-brand-accent-light hover:border-brand-accent transition-colors flex items-center justify-center gap-2">
-                 <PlusIcon className="w-5 h-5" />
-                Adicionar Nova Etapa
-            </button>
         </div>
     );
 };
 
+
 // --- NEW Component for Step 3 Content ---
 const Step3Content = ({ steps, onAddFlow }) => {
-    const namedSteps = steps.filter(step => step.name.trim() !== '');
-
-    if (namedSteps.length === 0) {
-        return (
-            <div className="flex items-center justify-center h-full">
-                <p className="text-gray-500">Volte para a Etapa 2 para adicionar e nomear as etapas do seu workflow.</p>
-            </div>
-        );
-    }
-    
     return (
-        <div className="space-y-3 text-left">
-            {namedSteps.map((step) => (
-                <div key={step.id} className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-md shadow-sm">
-                    <span className="font-medium text-brand-text-primary">{step.name}</span>
-                    <button onClick={() => onAddFlow(step.id)} className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-white border border-brand-accent text-brand-accent hover:bg-brand-accent-light transition-colors">
-                        <PlusIcon className="w-4 h-4" />
-                        <span>Adicionar Fluxo de Ferramentas</span>
-                    </button>
-                </div>
-            ))}
+        <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-brand-text-primary">Adicionar Fluxo de Ferramentas</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {steps.map((step, index) => (
+                    <div key={step.id} className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col min-h-[220px]">
+                        <div className="flex items-center gap-3">
+                            <span className="flex items-center justify-center w-6 h-6 bg-brand-accent text-white rounded-full font-bold text-sm flex-shrink-0">
+                                {index + 1}
+                            </span>
+                            <p className="font-semibold text-brand-text-primary">{step.name}</p>
+                        </div>
+                        
+                        <div className="my-4 border-t border-gray-200"></div>
+
+                        <div className="flex-grow">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                RESPONSÁVEL
+                            </label>
+                            <div className="relative mt-1">
+                                <div className="w-full flex items-center gap-3 px-3 py-2 border border-brand-input-border rounded-md bg-white text-brand-text-primary">
+                                    <TeamIcon className="w-5 h-5 text-gray-400" />
+                                    <span>{step.profile || 'N/A'}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            onClick={() => onAddFlow(step.id)} 
+                            className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-white border border-brand-input-border text-brand-text-secondary hover:bg-gray-100 transition-colors"
+                        >
+                            <PlusIcon className="w-4 h-4" />
+                            <span>Adicionar Fluxo de Ferramentas</span>
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
@@ -902,8 +955,11 @@ const Step3Content = ({ steps, onAddFlow }) => {
 
 // --- NEW Workflow Editor View ---
 const WorkflowEditorView = ({ onBack, onAddFlow }) => {
-    const [currentStep, setCurrentStep] = useState(1);
-    const [workflowSteps, setWorkflowSteps] = useState([{ id: 1, name: '', profile: '' }]);
+    const [currentStep, setCurrentStep] = useState(3);
+    const [workflowSteps, setWorkflowSteps] = useState([
+        { id: 1, name: 'Análise Jurídica', profile: 'Advogado Sênior' },
+        { id: 2, name: 'Aprovação Financeira', profile: 'Gerente Financeiro' }
+    ]);
     const steps = [
         { id: 1, title: 'Nome e Associações' },
         { id: 2, title: 'Etapas' },
@@ -925,47 +981,35 @@ const WorkflowEditorView = ({ onBack, onAddFlow }) => {
 
                 <div className="bg-brand-secondary p-8 rounded-lg border border-gray-200 shadow-sm">
                     {/* Stepper */}
-                    <div className="flex justify-center">
-                        {steps.map((step, index) => {
-                            const isActive = currentStep === step.id;
-                            const isFirst = index === 0;
-                            const bgColor = isActive ? 'bg-brand-accent' : 'bg-gray-500';
-                            
-                            const clipPath = 'polygon(0% 0%, 85% 0, 100% 50%, 85% 100%, 0% 100%)';
-                            const stepWidthRem = 12; // Corresponds to w-48
-                            const overlapRem = stepWidthRem * 0.15;
-
-                            return (
-                                <div
-                                    key={step.id}
-                                    className={`relative h-10 w-48 flex items-center justify-center text-sm font-medium text-white ${bgColor}`}
-                                    style={{
-                                        clipPath,
-                                        marginLeft: isFirst ? 0 : `-${overlapRem}rem`, 
-                                        zIndex: steps.length - index,
-                                    }}
-                                >
-                                    <span style={{ paddingLeft: isFirst ? 0 : `${overlapRem}rem` }}>
-                                        {step.title}
-                                    </span>
-                                </div>
-                            );
-                        })}
+                    <div className="flex items-center justify-center space-x-2">
+                        <button
+                            onClick={() => setCurrentStep(1)}
+                            className={`px-4 py-2 rounded-md font-semibold text-sm transition-colors ${currentStep === 1 ? 'bg-brand-accent text-white' : 'bg-gray-200 text-brand-text-secondary hover:bg-gray-300'}`}
+                        >
+                            Nome e Associações
+                        </button>
+                        <span className="text-gray-400 font-semibold">&gt;</span>
+                        <button
+                            onClick={() => setCurrentStep(2)}
+                            className={`px-4 py-2 rounded-md font-semibold text-sm transition-colors ${currentStep === 2 ? 'bg-brand-accent text-white' : 'bg-gray-200 text-brand-text-secondary hover:bg-gray-300'}`}
+                        >
+                            Etapas
+                        </button>
+                        <span className="text-gray-400 font-semibold">&gt;</span>
+                        <button
+                            onClick={() => setCurrentStep(3)}
+                            className={`px-4 py-2 rounded-md font-semibold text-sm transition-colors ${currentStep === 3 ? 'bg-brand-accent text-white' : 'bg-gray-200 text-brand-text-secondary hover:bg-gray-300'}`}
+                        >
+                            Ferramentas
+                        </button>
                     </div>
 
 
                     {/* Step content */}
-                    <div className="mt-8 border-t pt-8">
+                    <div className="mt-8 border-t pt-8 min-h-[400px]">
                         {currentStep === 1 && <Step1Content />}
                         {currentStep === 2 && <Step2Content steps={workflowSteps} onStepsChange={setWorkflowSteps} />}
-                        {currentStep === 3 && (
-                             <>
-                                <h3 className="text-xl font-semibold mb-4">Etapa 3: Detalhes</h3>
-                                <div className="p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 min-h-[200px]">
-                                    <Step3Content steps={workflowSteps} onAddFlow={onAddFlow} />
-                                </div>
-                            </>
-                        )}
+                        {currentStep === 3 && <Step3Content steps={workflowSteps} onAddFlow={onAddFlow} />}
                     </div>
 
                     {/* Navigation */}
@@ -973,19 +1017,22 @@ const WorkflowEditorView = ({ onBack, onAddFlow }) => {
                          <button 
                             onClick={() => setCurrentStep(s => Math.max(1, s - 1))}
                             disabled={currentStep === 1}
-                            className="px-6 py-2 font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed">
+                            className="px-6 py-2 font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed flex items-center gap-2">
+                             <ChevronLeftIcon className="w-4 h-4" />
                             Anterior
                         </button>
                         {currentStep < steps.length ? (
                             <button 
                                 onClick={() => setCurrentStep(s => Math.min(steps.length, s + 1))}
-                                className="px-6 py-2 font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors">
+                                className="px-6 py-2 font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors flex items-center gap-2">
                                 Próximo
+                                <ChevronLeftIcon className="w-4 h-4 rotate-180" />
                             </button>
                         ) : (
                              <button 
-                                className="px-6 py-2 font-semibold rounded-lg bg-brand-success text-white hover:bg-green-600 transition-colors">
-                                Salvar Workflow
+                                className="px-6 py-2 font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors flex items-center gap-2">
+                                <SaveAltIcon className="w-5 h-5" />
+                                Salvar Alterações
                             </button>
                         )}
                     </div>
