@@ -1,20 +1,5 @@
 
-
 import React, { useState, useRef, FormEvent, ChangeEvent, useCallback, useMemo, useEffect } from 'react';
-import ReactFlow, {
-    useNodesState,
-    useEdgesState,
-    addEdge,
-    MiniMap,
-    Controls,
-    Background,
-    Handle,
-    Position,
-    ReactFlowProvider,
-    // Fix: Import BackgroundVariant for use in the Background component.
-    BackgroundVariant,
-} from 'reactflow';
-
 
 // --- Reusable SVG Icons ---
 
@@ -141,6 +126,7 @@ const MoreIcon = ({ className = "w-5 h-5" }) => (
 );
 // --- NEW ICONS for Workflow Builder ---
 const ChevronLeftIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>;
+const ChevronDownIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>;
 const SaveIcon = ({ className = "w-5 h-5" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>;
 const SaveAltIcon = ({ className = "w-5 h-5" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -162,7 +148,12 @@ const FlagIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/20
 const SettingsIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>;
 const XIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>;
 const EditIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
-
+const GlobeIcon = ({ className = "w-5 h-5" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+    </svg>
+);
+const ArrowRightIcon = ({ className = "w-4 h-4" }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>;
 
 // --- NEW ICONS FOR AUTOMATION FLOW PAGE ---
 const OcrIcon = ({ className = "w-4 h-4" }) => (
@@ -442,7 +433,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
     ];
 
     return (
-        <aside className="w-64 bg-brand-secondary p-4 space-y-2 border-r border-gray-200 shadow-sm shrink-0">
+        <aside className="w-64 bg-brand-secondary p-4 space-y-2 border-r border-gray-200 shadow-sm shrink-0 h-full">
             <nav>
                 <ul>
                     {navItems.map(item => {
@@ -477,13 +468,7 @@ const WelcomeContent = () => (
         <main className="max-w-4xl mx-auto space-y-8">
             {/* Header */}
             <header className="text-center">
-                <div className="inline-block bg-blue-100 p-2 rounded-lg mb-2">
-                     <svg className="w-8 h-8 text-brand-accent" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.23 18.02c-1.92.7-3.46.48-4.81-.86-2.2-2.2-2.2-5.78 0-7.98 2.2-2.2 5.78-2.2 7.98 0 .33.33.59.7.79 1.1M11.77 5.98c1.92-.7 3.46-.48 4.81.86 2.2 2.2 2.2 5.78 0 7.98-2.2 2.2-5.78 2.2-7.98 0-.33-.33-.59-.7-.79-1.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M12 22v-2m0-16V2m10 10h-2M4 12H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                     </svg>
-                </div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-brand-text-primary">Bem-vindo ao AI HUB, Woopi AI!</h1>
+                <h1 className="text-3xl sm:text-4xl font-bold text-brand-text-primary">Bem-vindo ao WOOPI AI!</h1>
                 <p className="text-brand-text-secondary mt-2 max-w-2xl mx-auto">Sua jornada para automatizar e otimizar processos com inteligência artificial começa agora.</p>
             </header>
 
@@ -518,7 +503,7 @@ const WelcomeContent = () => (
                      <OnboardingItem 
                         icon={<DocsIcon />}
                         title="Explore a Documentação"
-                        description="Consulte nossa documentação completa para explorar todo o potencial da AI HUB."
+                        description="Consulte nossa documentação completa para explorar todo o potencial da WOOPI AI."
                         linkText="Acessar docs"
                         href="#"
                     />
@@ -529,7 +514,20 @@ const WelcomeContent = () => (
 );
 
 // --- NEW API Key Management View ---
-const ApiKeysView = ({ keys, onAdd, onDelete }) => {
+
+interface ApiKey {
+    id: number;
+    name: string;
+    value: string;
+}
+
+interface ApiKeysViewProps {
+    keys: ApiKey[];
+    onAdd: (name: string) => void;
+    onDelete: (ids: number[]) => void;
+}
+
+const ApiKeysView = ({ keys, onAdd, onDelete }: ApiKeysViewProps) => {
     const [newKeyName, setNewKeyName] = useState('');
     const [selectedKeys, setSelectedKeys] = useState(new Set<number>());
     const [copiedKeyId, setCopiedKeyId] = useState<number | null>(null);
@@ -685,765 +683,319 @@ const ApiKeysView = ({ keys, onAdd, onDelete }) => {
     );
 };
 
-// --- NEW Workflow Management View ---
-const WorkflowManagementView = ({ onNewWorkflow, onEditWorkflow }) => {
-    const [openMenuId, setOpenMenuId] = useState<number | null>(null);
-
-    const workflows = [
-      { id: 2, name: 'Análise de Documentos Fiscais', teams: ['Financeiro', 'Contabilidade'] },
-      { id: 1, name: 'Aprovação de Contratos', teams: ['Jurídico', 'Financeiro'] },
-      { id: 4, name: 'Processamento de Relatórios', teams: ['Marketing', 'Desenvolvimento'] },
-      { id: 3, name: 'Revisão de Políticas Internas', teams: ['RH', 'Jurídico'] },
-      { id: 5, name: 'Validação de Certificados', teams: ['RH', 'Qualidade'] },
-    ];
-
-    const handleToggleMenu = (id: number) => {
-        setOpenMenuId(prevId => (prevId === id ? null : id));
-    };
-
-    return (
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-            <main className="max-w-7xl mx-auto space-y-6">
-                <header className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold text-brand-text-primary">Gestão de Workflows</h1>
-                        <p className="text-brand-text-secondary mt-1">Gerencie e configure workflows de processamento de documentos</p>
-                    </div>
-                    <button onClick={onNewWorkflow} className="bg-brand-accent text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold hover:bg-brand-accent-hover transition-colors">
-                        <PlusIcon className="w-5 h-5" />
-                        <span>Novo Workflow</span>
-                    </button>
-                </header>
-
-                <div className="relative">
-                    <SearchIcon className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input 
-                        type="text"
-                        placeholder="Buscar por nome do workflow ou times..."
-                        className="w-full p-3 pl-12 border border-brand-input-border rounded-lg bg-brand-secondary focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
-                    />
-                </div>
-
-                <div className="bg-brand-secondary rounded-lg border border-gray-200 shadow-sm">
-                    <div className="p-4 border-b border-gray-200">
-                        <h2 className="font-semibold text-brand-text-primary">Workflows ({workflows.length})</h2>
-                    </div>
-
-                    {/* Table Header */}
-                    <div className="grid grid-cols-12 gap-4 px-4 py-3 text-xs font-bold text-brand-text-secondary uppercase tracking-wider bg-gray-50">
-                        <div className="col-span-1">ID</div>
-                        <div className="col-span-4 flex items-center gap-1 cursor-pointer">
-                            Nome do Workflow <SortIcon />
-                        </div>
-                        <div className="col-span-6 flex items-center gap-1 cursor-pointer">
-                            Times Associados <SortIcon />
-                        </div>
-                        <div className="col-span-1 text-right">Ações</div>
-                    </div>
-                    
-                    {/* Table Body */}
-                    <div>
-                        {workflows.map(wf => (
-                            <div key={wf.id} className="grid grid-cols-12 gap-4 px-4 py-4 border-t border-gray-200 items-center text-sm">
-                                <div className="col-span-1 text-brand-text-secondary">{wf.id}</div>
-                                <div className="col-span-4 font-medium text-brand-text-primary flex items-center">
-                                    {wf.name}
-                                </div>
-                                <div className="col-span-6 flex flex-wrap gap-2">
-                                    {wf.teams.map(team => (
-                                        <span key={team} className="flex items-center gap-1.5 bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded-md border border-gray-200">
-                                            <TeamIcon className="w-4 h-4 text-gray-500" />
-                                            {team}
-                                        </span>
-                                    ))}
-                                </div>
-                                <div className="col-span-1 flex justify-end">
-                                    <div className="relative">
-                                        <button onClick={() => handleToggleMenu(wf.id)} className="text-gray-500 hover:text-brand-text-primary p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-accent">
-                                            <MoreIcon />
-                                        </button>
-                                        {openMenuId === wf.id && (
-                                            <div className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg z-10 border border-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                <div className="py-1">
-                                                    <a href="#" onClick={(e) => { e.preventDefault(); onEditWorkflow(wf.id); setOpenMenuId(null); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Editar</a>
-                                                    <a href="#" className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" role="menuitem">Deletar</a>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </main>
+const TopBar = () => (
+  <header className="bg-brand-secondary border-b border-gray-200 h-16 flex items-center shrink-0">
+    <div className="w-64 h-full flex items-center px-6 border-r border-gray-200 shrink-0">
+        <div className="font-bold text-2xl text-brand-accent" style={{ fontFamily: '"Segoe UI", sans-serif' }}>WOOPI AI</div>
+    </div>
+    <div className="flex-1 flex items-center justify-between px-6 h-full">
+        <div className="px-3 py-1 rounded-md bg-gray-100 text-xs font-medium text-gray-600 border border-gray-200">
+            Tenant name
         </div>
-    );
-};
-
-
-// --- NEW Component for Step 1 Content ---
-const Step1Content = () => {
-    const teams = [
-        'Jurídico', 'Financeiro', 'RH', 'Marketing',
-        'Desenvolvimento', 'Contabilidade', 'Qualidade'
-    ];
-
-    return (
-        <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-brand-text-primary">Informações Básicas</h3>
-            <div className="space-y-4">
-                <div>
-                    <label htmlFor="workflow-name" className="block text-sm font-medium text-brand-text-secondary mb-1">
-                        Nome do Workflow
-                    </label>
-                    <input
-                        type="text"
-                        id="workflow-name"
-                        placeholder="Ex: Aprovação de Contratos"
-                        className="w-full p-3 border border-brand-input-border rounded-lg bg-brand-input-bg focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"
-                    />
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-brand-text-secondary mb-2">
-                        Times Associados
-                    </label>
-                    <div className="p-4 border border-brand-input-border rounded-lg">
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4">
-                            {teams.map(team => (
-                                <div key={team} className="flex items-center">
-                                    <input
-                                        id={`team-${team}`}
-                                        type="checkbox"
-                                        className="h-4 w-4 rounded border-gray-300 text-brand-accent focus:ring-brand-accent"
-                                    />
-                                    <label htmlFor={`team-${team}`} className="ml-3 text-sm text-brand-text-primary">
-                                        {team}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className="flex items-center gap-4">
+           <GlobeIcon className="w-5 h-5 text-gray-500 cursor-pointer" />
+           <div className="flex items-center gap-2 cursor-pointer">
+              <div className="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center text-sm font-semibold">JS</div>
+              <div className="text-sm font-medium text-brand-text-primary">João Silva</div>
+              <ChevronDownIcon className="w-4 h-4 text-gray-500" />
+           </div>
         </div>
-    );
-};
-
-// --- NEW Component for Step 2 Content ---
-const Step2Content = ({ steps, onStepsChange }) => {
-    const profiles = ['Advogado Sênior', 'Gerente Financeiro', 'Analista Jurídico', 'Analista Financeiro', 'Diretor Jurídico', 'Diretor Financeiro', 'Qualidade'];
-
-    const handleAddStep = () => {
-        const newStepNumbers = steps
-            .map(s => s.name)
-            .filter(name => name.startsWith('Nova Etapa'))
-            .map(name => parseInt(name.replace('Nova Etapa', '').trim(), 10))
-            .filter(num => !isNaN(num));
-        const nextNum = newStepNumbers.length > 0 ? Math.max(...newStepNumbers) + 1 : 1;
-
-        const newStep = { id: Date.now(), name: `Nova Etapa ${nextNum}`, profile: '' };
-        onStepsChange([...steps, newStep]);
-    };
-
-    const handleRemoveStep = (idToRemove: number) => {
-        onStepsChange(steps.filter(step => step.id !== idToRemove));
-    };
-
-    const handleStepChange = (id: number, field: 'name' | 'profile', value: string) => {
-        onStepsChange(steps.map(step =>
-            step.id === id ? { ...step, [field]: value } : step
-        ));
-    };
-
-    return (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-brand-text-primary">Etapas do Workflow</h2>
-                <button onClick={handleAddStep} className="bg-brand-accent text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold hover:bg-brand-accent-hover transition-colors">
-                    <PlusIcon className="w-5 h-5" />
-                    <span>Nova Etapa</span>
-                </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {steps.map((step, index) => (
-                    <div key={step.id} className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 space-y-4 flex flex-col">
-                        <div className="flex justify-between items-start">
-                             <div className="flex items-center gap-3 flex-grow min-w-0">
-                                <span className="flex items-center justify-center w-6 h-6 bg-brand-accent text-white rounded-full font-bold text-sm flex-shrink-0">
-                                    {index + 1}
-                                </span>
-                                <input
-                                    type="text"
-                                    value={step.name}
-                                    onChange={(e) => handleStepChange(step.id, 'name', e.target.value)}
-                                    placeholder="Nome da Etapa"
-                                    className="font-semibold text-brand-text-primary bg-transparent focus:outline-none focus:ring-0 border-0 p-0 w-full"
-                                    aria-label="Nome da Etapa"
-                                />
-                            </div>
-                            <button onClick={() => handleRemoveStep(step.id)} className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0">
-                                <XIcon className="w-5 h-5" />
-                            </button>
-                        </div>
-                        <div className="flex-grow">
-                            <label htmlFor={`step-profile-${step.id}`} className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                RESPONSÁVEL
-                            </label>
-                            <div className="relative mt-1">
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                  <TeamIcon className="w-5 h-5 text-gray-400" />
-                                </span>
-                                <select
-                                    id={`step-profile-${step.id}`}
-                                    value={step.profile}
-                                    onChange={(e) => handleStepChange(step.id, 'profile', e.target.value)}
-                                    className="w-full pl-10 pr-10 py-2 border border-brand-input-border rounded-md bg-white focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent appearance-none"
-                                >
-                                    <option value="" disabled>Selecione um perfil</option>
-                                    {profiles.map(p => <option key={p} value={p}>{p}</option>)}
-                                </select>
-                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-
-                <div
-                    onClick={handleAddStep}
-                    className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center p-4 min-h-[190px] text-center cursor-pointer hover:bg-gray-50 hover:border-brand-accent transition-colors group"
-                >
-                    <div className="w-12 h-12 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center mb-3 group-hover:border-brand-accent">
-                        <PlusIcon className="w-6 h-6 text-gray-400 group-hover:text-brand-accent" />
-                    </div>
-                    <p className="font-semibold text-brand-text-primary">Adicionar Etapa</p>
-                    <p className="text-sm text-brand-text-secondary">Clique para criar uma nova etapa</p>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-
-// --- NEW Component for Step 3 Content ---
-const Step3Content = ({ steps, onAddFlow }) => {
-    return (
-        <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-brand-text-primary">Adicionar Fluxo de Ferramentas</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {steps.map((step, index) => (
-                    <div key={step.id} className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col min-h-[220px]">
-                        <div className="flex items-center gap-3">
-                            <span className="flex items-center justify-center w-6 h-6 bg-brand-accent text-white rounded-full font-bold text-sm flex-shrink-0">
-                                {index + 1}
-                            </span>
-                            <p className="font-semibold text-brand-text-primary">{step.name}</p>
-                        </div>
-                        
-                        <div className="my-4 border-t border-gray-200"></div>
-
-                        <div className="flex-grow">
-                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                RESPONSÁVEL
-                            </label>
-                            <div className="relative mt-1">
-                                <div className="w-full flex items-center gap-3 px-3 py-2 border border-brand-input-border rounded-md bg-white text-brand-text-primary">
-                                    <TeamIcon className="w-5 h-5 text-gray-400" />
-                                    <span>{step.profile || 'N/A'}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button 
-                            onClick={() => onAddFlow(step.id)} 
-                            className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-md bg-white border border-brand-input-border text-brand-text-secondary hover:bg-gray-100 transition-colors"
-                        >
-                            <PlusIcon className="w-4 h-4" />
-                            <span>Adicionar Fluxo de Ferramentas</span>
-                        </button>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-
-// --- NEW Workflow Editor View ---
-const WorkflowEditorView = ({ onBack, onAddFlow }) => {
-    const [currentStep, setCurrentStep] = useState(3);
-    const [workflowSteps, setWorkflowSteps] = useState([
-        { id: 1, name: 'Análise Jurídica', profile: 'Advogado Sênior' },
-        { id: 2, name: 'Aprovação Financeira', profile: 'Gerente Financeiro' }
-    ]);
-    const steps = [
-        { id: 1, title: 'Nome e Associações' },
-        { id: 2, title: 'Etapas' },
-        { id: 3, title: 'Ferramentas' },
-    ];
-
-    return (
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-            <main className="max-w-7xl mx-auto space-y-6">
-                <header className="flex justify-between items-center">
-                    <div>
-                        <h1 className="text-3xl font-bold text-brand-text-primary">Criar / Editar Workflow</h1>
-                        <p className="text-brand-text-secondary mt-1">Siga as etapas para configurar seu workflow.</p>
-                    </div>
-                    <button onClick={onBack} className="bg-gray-200 text-brand-text-primary px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
-                        Voltar para a Lista
-                    </button>
-                </header>
-
-                <div className="bg-brand-secondary p-8 rounded-lg border border-gray-200 shadow-sm">
-                    {/* Stepper */}
-                    <div className="flex items-center justify-center space-x-2">
-                        <button
-                            onClick={() => setCurrentStep(1)}
-                            className={`px-4 py-2 rounded-md font-semibold text-sm transition-colors ${currentStep === 1 ? 'bg-brand-accent text-white' : 'bg-gray-200 text-brand-text-secondary hover:bg-gray-300'}`}
-                        >
-                            Nome e Associações
-                        </button>
-                        <span className="text-gray-400 font-semibold">&gt;</span>
-                        <button
-                            onClick={() => setCurrentStep(2)}
-                            className={`px-4 py-2 rounded-md font-semibold text-sm transition-colors ${currentStep === 2 ? 'bg-brand-accent text-white' : 'bg-gray-200 text-brand-text-secondary hover:bg-gray-300'}`}
-                        >
-                            Etapas
-                        </button>
-                        <span className="text-gray-400 font-semibold">&gt;</span>
-                        <button
-                            onClick={() => setCurrentStep(3)}
-                            className={`px-4 py-2 rounded-md font-semibold text-sm transition-colors ${currentStep === 3 ? 'bg-brand-accent text-white' : 'bg-gray-200 text-brand-text-secondary hover:bg-gray-300'}`}
-                        >
-                            Ferramentas
-                        </button>
-                    </div>
-
-
-                    {/* Step content */}
-                    <div className="mt-8 border-t pt-8 min-h-[400px]">
-                        {currentStep === 1 && <Step1Content />}
-                        {currentStep === 2 && <Step2Content steps={workflowSteps} onStepsChange={setWorkflowSteps} />}
-                        {currentStep === 3 && <Step3Content steps={workflowSteps} onAddFlow={onAddFlow} />}
-                    </div>
-
-                    {/* Navigation */}
-                    <div className="flex justify-between mt-8">
-                         <button 
-                            onClick={() => setCurrentStep(s => Math.max(1, s - 1))}
-                            disabled={currentStep === 1}
-                            className="px-6 py-2 font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed flex items-center gap-2">
-                             <ChevronLeftIcon className="w-4 h-4" />
-                            Anterior
-                        </button>
-                        {currentStep < steps.length ? (
-                            <button 
-                                onClick={() => setCurrentStep(s => Math.min(steps.length, s + 1))}
-                                className="px-6 py-2 font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors flex items-center gap-2">
-                                Próximo
-                                <ChevronLeftIcon className="w-4 h-4 rotate-180" />
-                            </button>
-                        ) : (
-                             <button 
-                                className="px-6 py-2 font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors flex items-center gap-2">
-                                <SaveAltIcon className="w-5 h-5" />
-                                Salvar Alterações
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </main>
-        </div>
-    );
-};
-
-// --- NEW WORKFLOW BUILDER COMPONENTS ---
-const ConfigSidePanel = ({ node, onClose, onUpdateNode }) => {
-    if (!node) return null;
-
-    const prompts = [
-        "Resumidor",
-        "Transformador de história de usuário",
-        "Gerador de conteúdo jornalístico",
-        "Explicando detalhes principais",
-    ];
-
-    return (
-        <div className="absolute top-0 right-0 h-full w-96 bg-brand-secondary shadow-2xl z-20 border-l border-gray-200 flex flex-col transition-all duration-300">
-            <header className="p-4 border-b border-gray-200 flex justify-between items-center shrink-0">
-                <h3 className="text-lg font-semibold text-brand-text-primary">Configurar Ferramenta</h3>
-                <button onClick={onClose} className="p-1 rounded-full text-gray-400 hover:bg-gray-200 hover:text-gray-700">
-                    <XIcon className="w-5 h-5" />
-                </button>
-            </header>
-            <div className="p-6 flex-grow overflow-y-auto">
-                <div className="mb-6">
-                    <label className="text-sm font-medium text-brand-text-secondary">{node.data.label}</label>
-                </div>
-                <div className="space-y-6">
-                    <div>
-                        <label htmlFor="prompt-search" className="block text-sm font-medium text-brand-text-primary mb-2">Prompts cadastrados</label>
-                        <div className="relative">
-                           <SearchIcon className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                           <input id="prompt-search" type="text" placeholder="Buscar..." className="w-full p-2 pl-10 border border-brand-input-border rounded-lg bg-brand-input-bg"/>
-                        </div>
-                        <div className="mt-2 space-y-1 max-h-40 overflow-y-auto p-1">
-                            {prompts.map(p => <div key={p} className="p-2 text-sm rounded-md hover:bg-gray-100 cursor-pointer">{p}</div>)}
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="prompt-write" className="block text-sm font-medium text-brand-text-primary mb-2">Escrever Prompt</label>
-                        <textarea id="prompt-write" rows={6} className="w-full p-2 border border-brand-input-border rounded-lg bg-brand-input-bg focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const ToolNode = ({ data }) => {
-    return (
-        <div className="bg-white border-2 border-brand-accent rounded-lg shadow-md p-3 w-56 font-sans">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    {data.icon}
-                    <span className="font-semibold text-sm text-brand-text-primary">{data.label}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                    <button onClick={() => data.onSettingsClick(data.id)} className="text-gray-400 hover:text-brand-accent">
-                        <SettingsIcon className="w-5 h-5" />
-                    </button>
-                    <button onClick={() => data.onDeleteClick(data.id)} className="text-gray-400 hover:text-red-600">
-                        <XIcon className="w-5 h-5" />
-                    </button>
-                </div>
-            </div>
-            <Handle type="target" position={Position.Left} className="!bg-brand-accent !w-3 !h-3" />
-            <Handle type="source" position={Position.Right} className="!bg-brand-accent !w-3 !h-3" />
-        </div>
-    );
-};
-
-const WorkflowBuilderViewContent = ({ onBack }) => {
-    const [selectedNode, setSelectedNode] = useState(null);
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-    
-    const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } }, eds)), [setEdges]);
-
-    const handleSettingsClick = useCallback((nodeId) => {
-        const node = nodes.find(n => n.id === nodeId);
-        setSelectedNode(node);
-    }, [nodes, setSelectedNode]);
-
-    const handleDeleteClick = useCallback((nodeId) => {
-        setNodes((nds) => nds.filter(node => node.id !== nodeId));
-    }, [setNodes]);
-
-    const nodeTypes = useMemo(() => ({ tool: ToolNode }), []);
-
-    useEffect(() => {
-        const initialNodes = [
-            { id: '1', type: 'tool', position: { x: 50, y: 200 }, data: { id: '1', label: 'Início', icon: <PlayIcon className="text-blue-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
-            { id: '2', type: 'tool', position: { x: 350, y: 200 }, data: { id: '2', label: 'OCR Padrão', icon: <ScanIcon className="text-green-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
-            { id: '3', type: 'tool', position: { x: 650, y: 100 }, data: { id: '3', label: 'Embeddings de Contratos', icon: <LinkIcon className="text-purple-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
-            { id: '4', type: 'tool', position: { x: 650, y: 300 }, data: { id: '4', label: 'Extrair Dados de NF-e', icon: <FileTextIcon className="text-orange-500"/>, onSettingsClick: handleSettingsClick, onDeleteClick: handleDeleteClick } },
-        ];
-        const initialEdges = [
-            { id: 'e1-2', source: '1', target: '2', type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } },
-            { id: 'e2-3', source: '2', target: '3', type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } },
-            { id: 'e2-4', source: '2', target: '4', type: 'smoothstep', animated: true, style: { stroke: '#2979ff' } },
-        ];
-        setNodes(initialNodes);
-        setEdges(initialEdges);
-    }, [handleSettingsClick, handleDeleteClick, setNodes, setEdges]);
-
-
-    const availableTools = [
-        { name: 'Início', icon: <PlayIcon /> }, { name: 'OCR Padrão', icon: <ScanIcon /> },
-        { name: 'Embeddings de Contratos', icon: <LinkIcon /> }, { name: 'Resumidor de E-mails', icon: <MailIcon /> },
-        { name: 'Extrair Dados de NF-e', icon: <FileTextIcon /> }, { name: 'Enviar para ERP', icon: <PaperAirplaneIcon /> },
-        { name: 'Finalizar Fluxo', icon: <FlagIcon /> },
-    ];
-
-    return (
-        <div className="flex flex-col h-full w-full bg-brand-primary">
-            <header className="bg-brand-secondary p-3 border-b border-gray-200 flex justify-between items-center shrink-0">
-                <div className="flex items-center gap-4">
-                    <button onClick={onBack} className="flex items-center gap-2 font-semibold text-brand-text-secondary hover:text-brand-text-primary">
-                        <ChevronLeftIcon /> Voltar
-                    </button>
-                    <div className="h-6 w-px bg-gray-200"></div>
-                    <div className="flex items-center gap-2">
-                        <h1 className="text-lg font-semibold text-brand-text-primary">Fluxo de Automação: Recebimento</h1>
-                        <button className="text-gray-400 hover:text-gray-700 p-1"><EditIcon className="w-4 h-4"/></button>
-                    </div>
-                </div>
-                <div className="flex items-center gap-2">
-                    <button className="px-4 py-2 text-sm font-semibold rounded-lg bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors flex items-center gap-2">
-                        <SaveIcon /> Salvar
-                    </button>
-                    <button className="px-4 py-2 text-sm font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors flex items-center gap-2">
-                        <DownloadIcon /> Baixar JSON
-                    </button>
-                    <button className="px-4 py-2 text-sm font-semibold rounded-lg bg-gray-200 text-brand-text-primary hover:bg-gray-300 transition-colors flex items-center gap-2">
-                        <UploadIcon /> Upload
-                    </button>
-                </div>
-            </header>
-            <main className="flex-grow relative">
-                <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    nodeTypes={nodeTypes}
-                    fitView
-                >
-                    {/* Fix: Use the BackgroundVariant enum instead of a string literal for the variant prop. */}
-                    <Background variant={BackgroundVariant.Dots} gap={16} size={1} />
-                    <Controls />
-                    <MiniMap />
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-white p-1.5 rounded-lg shadow-md flex items-center gap-1 border border-gray-200">
-                        <button className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 text-sm font-medium text-brand-text-secondary">
-                            <EyeOffIcon /> Ocultar Ferramentas
-                        </button>
-                        <div className="h-6 w-px bg-gray-200 mx-1"></div>
-                        {availableTools.map(tool => (
-                            <button key={tool.name} className="flex items-center gap-2 p-2 rounded-md text-sm text-brand-text-secondary hover:bg-gray-100 font-medium border border-transparent hover:border-gray-200">
-                                {React.cloneElement(tool.icon, { className: 'w-5 h-5' })}
-                                {tool.name}
-                            </button>
-                        ))}
-                    </div>
-                </ReactFlow>
-                <ConfigSidePanel node={selectedNode} onClose={() => setSelectedNode(null)} onUpdateNode={() => {}} />
-            </main>
-        </div>
-    );
-};
-
-const WorkflowBuilderView = ({ onBack }) => (
-    <ReactFlowProvider>
-        <WorkflowBuilderViewContent onBack={onBack} />
-    </ReactFlowProvider>
+    </div>
+  </header>
 );
 
-// --- NEW STATIC AUTOMATION FLOW EXAMPLE PAGE ---
-const StaticAutomationFlow = () => {
-    const tools = [
-        { name: 'Início', icon: <PlayIcon className="w-4 h-4" />, active: true },
-        { name: 'OCR Padrão', icon: <OcrIcon className="w-4 h-4" /> },
-        { name: 'Embeddings de Contratos', icon: <FileTextIcon className="w-4 h-4" /> },
-        { name: 'Resumidor de E-mails', icon: <MailIcon className="w-4 h-4" /> },
-        { name: 'Extrair Dados de NF-e', icon: <FileTextIcon className="w-4 h-4" /> },
-        { name: 'Enviar para ERP', icon: <PaperAirplaneIcon className="w-4 h-4" /> },
-        { name: 'Finalizar fluxo', icon: <FlagIcon className="w-4 h-4" /> },
-    ];
-    
-    // Hardcoded node data based on the user's HTML example
-    const flowNodes = [
-        {
-            id: 'inicio',
-            style: { left: '100px', top: '100px' },
-            widthClass: 'w-48',
-            icon: <PlayIcon className="w-5 h-5 text-blue-600" />,
-            label: 'Início',
-        },
-        {
-            id: 'ocr',
-            style: { left: '350px', top: '50px' },
-            widthClass: 'w-56',
-            icon: <OcrIcon className="w-5 h-5 text-blue-600" />,
-            label: 'OCR Padrão',
-        },
-        {
-            id: 'embeddings',
-            style: { left: '650px', top: '20px' },
-            widthClass: 'w-64',
-            icon: <FileTextIcon className="w-5 h-5 text-blue-600" />,
-            label: 'Embeddings de Contratos',
-        },
-        {
-            id: 'nfe',
-            style: { left: '650px', top: '200px' },
-            widthClass: 'w-64',
-            icon: <FileTextIcon className="w-5 h-5 text-blue-600" />,
-            label: 'Extrair Dados de NF-e',
-        },
-    ];
+const DocumentsView = () => {
+  // Mock data matching the screenshot
+  const documents = [
+    { id: 1, name: "Contrato_Fornecedor_2024", desc: "Contrato de fornecimento de materiais para 2024", date: "14/01/2024", status: "Analisado", workflows: ["Análise Jurídica", "Aprovação Financeira"] },
+    { id: 2, name: "Relatório_Financeiro_Q1", desc: "Relatório financeiro do primeiro trimestre", date: "13/01/2024", status: "Aguardando análise", workflows: ["Revisão Financeira"] },
+    { id: 3, name: "Apresentação_Projeto", desc: "Apresentação do novo projeto de expansão", date: "12/01/2024", status: "Aguardando análise", workflows: ["Aprovação de Projetos", "Review Marketing"] },
+    { id: 4, name: "Manual_Procedimentos", desc: "Manual de procedimentos internos atualizado", date: "11/01/2024", status: "Analisado", workflows: ["Validação RH"] },
+    { id: 5, name: "Fatura_Janeiro_2024", desc: "Fatura de serviços de janeiro 2024", date: "10/01/2024", status: "Aguardando análise", workflows: ["Processamento de Pagamentos"] },
+    { id: 6, name: "Política_Segurança", desc: "Política de segurança da informação", date: "09/01/2024", status: "Analisado", workflows: ["Compliance", "Auditoria Interna"] },
+    { id: 7, name: "Planilha_Custos", desc: "Planilha de controle de custos departamentais", date: "08/01/2024", status: "Aguardando análise", workflows: ["Análise de Custos", "Orçamento Anual"] },
+    { id: 8, name: "Ata_Reunião_Janeiro", desc: "Ata da reunião mensal de janeiro", date: "07/01/2024", status: "Aguardando análise", workflows: ["Distribuição de Atas", "Arquivo Documental"] },
+  ];
 
-    // Hardcoded SVG paths to connect the nodes
-    // M startX startY C cp1X cp1Y, cp2X cp2Y, endX endY
-    const connections = [
-        { from: 'inicio', to: 'ocr', path: 'M 292 138 C 321 138, 321 83, 350 83' }, // inicio -> ocr
-        { from: 'ocr', to: 'embeddings', path: 'M 574 83 C 612 83, 612 58, 650 58' }, // ocr -> embeddings
-        { from: 'inicio', to: 'nfe', path: 'M 292 138 C 471 138, 471 238, 650 238' }, // inicio -> nfe
-    ];
+  return (
+    <div className="flex-1 overflow-y-auto p-6">
+      <div className="max-w-6xl mx-auto space-y-6">
+        <header className="flex items-center justify-between">
+          <div>
+             <h2 className="text-2xl font-bold text-brand-text-primary">Documentos</h2>
+             <p className="text-brand-text-secondary mt-1">Gerencie documentos e extraia informações</p>
+          </div>
+          <button className="flex items-center gap-2 px-4 py-2 bg-brand-accent text-white rounded-md font-semibold hover:bg-brand-accent-hover transition-colors">
+            <PlusIcon className="w-5 h-5" />
+            <span>Novo Documento</span>
+          </button>
+        </header>
 
-    return (
-        <div className="flex flex-col h-full w-full bg-gray-50 font-sans">
-            <header className="bg-white border-b border-gray-200 px-6 py-4 shrink-0">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
-                            <ChevronLeftIcon className="w-5 h-5" />
-                            Voltar
-                        </button>
-                        <h1 className="text-xl font-semibold text-gray-900">Fluxo de Automação: Recebimento</h1>
-                        <button className="text-gray-400 hover:text-gray-600">
-                            <EditIcon className="w-5 h-5" />
-                        </button>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
-                            <SaveIcon className="w-4 h-4" />
-                            Incluir
-                        </button>
-                        <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-                            <DownloadIcon className="w-4 h-4" />
-                            Baixar JSON
-                        </button>
-                        <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-                            <UploadIcon className="w-4 h-4" />
-                            Upload
-                        </button>
-                    </div>
-                </div>
-            </header>
+        <div className="bg-brand-secondary rounded-xl border border-gray-200 shadow-sm p-4">
+           {/* Filters */}
+           <div className="flex flex-col md:flex-row gap-4 mb-6">
+              <div className="flex-1 relative">
+                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                 <input type="text" placeholder="Buscar por nome do documento, descrição ou workflows..." className="w-full pl-10 pr-4 py-2 border border-brand-input-border rounded-lg focus:ring-2 focus:ring-brand-accent/20 focus:border-brand-accent outline-none" />
+              </div>
+              <div className="flex gap-4">
+                 <select className="px-4 py-2 border border-brand-input-border rounded-lg bg-white text-brand-text-secondary focus:border-brand-accent outline-none">
+                    <option>Todos Status</option>
+                    <option>Analisado</option>
+                    <option>Aguardando análise</option>
+                 </select>
+                 <select className="px-4 py-2 border border-brand-input-border rounded-lg bg-white text-brand-text-secondary focus:border-brand-accent outline-none">
+                    <option>Todos os Workflows</option>
+                 </select>
+              </div>
+           </div>
 
-            <div className="bg-white border-b border-gray-200 px-6 py-3 shrink-0">
-                <div className="flex items-center gap-3">
-                    <button className="px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 flex items-center gap-2">
-                        <XIcon className="w-4 h-4" />
-                        Ocultar Ferramentas
-                    </button>
-                </div>
-            </div>
+           <div className="mb-4 text-brand-text-primary font-medium">Documentos (8)</div>
 
-            <div className="px-6 py-4 flex items-center gap-3 flex-wrap shrink-0">
-                {tools.map(tool => (
-                    <button key={tool.name} className={`px-4 py-2 border rounded-lg flex items-center gap-2 transition-colors ${
-                        tool.active ? 'bg-blue-50 border-2 border-blue-500 text-blue-600' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                    }`}>
-                        {tool.icon}
-                        {tool.name}
-                    </button>
-                ))}
-            </div>
-
-            <main className="flex-grow relative px-6 py-8">
-                <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-[1]">
-                    {connections.map(conn => (
-                        <path key={`${conn.from}-${conn.to}`} d={conn.path} fill="none" stroke="#3b82f6" strokeWidth="2" />
-                    ))}
-                </svg>
-                <div className="relative z-[2] h-full">
-                    {flowNodes.map(node => (
-                        <div key={node.id} className={`absolute bg-white rounded-lg shadow-lg border border-gray-200 p-4 ${node.widthClass}`} style={node.style}>
-                            <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                    {node.icon}
-                                    <span className="font-medium text-gray-900">{node.label}</span>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <button className="text-gray-400 hover:text-gray-600"><SettingsIcon /></button>
-                                    <button className="text-gray-400 hover:text-red-600"><XIcon /></button>
-                                </div>
-                            </div>
+           {/* Table */}
+           <div className="overflow-x-auto">
+             <table className="w-full text-left border-collapse">
+               <thead>
+                 <tr className="border-b border-gray-200">
+                   <th className="py-3 px-4 w-10"><input type="checkbox" className="rounded border-gray-300" /></th>
+                   <th className="py-3 px-4 text-sm font-semibold text-brand-text-secondary">Nome <SortIcon className="inline w-3 h-3 ml-1" /></th>
+                   <th className="py-3 px-4 text-sm font-semibold text-brand-text-secondary">Descrição <SortIcon className="inline w-3 h-3 ml-1" /></th>
+                   <th className="py-3 px-4 text-sm font-semibold text-brand-text-secondary w-32">Data Upload <SortIcon className="inline w-3 h-3 ml-1" /></th>
+                   <th className="py-3 px-4 text-sm font-semibold text-brand-text-secondary w-40">Status <SortIcon className="inline w-3 h-3 ml-1" /></th>
+                   <th className="py-3 px-4 text-sm font-semibold text-brand-text-secondary">Workflows <SortIcon className="inline w-3 h-3 ml-1" /></th>
+                 </tr>
+               </thead>
+               <tbody className="divide-y divide-gray-100">
+                 {documents.map(doc => (
+                   <tr key={doc.id} className="hover:bg-gray-50 group">
+                     <td className="py-4 px-4 align-top"><input type="checkbox" className="rounded border-gray-300" /></td>
+                     <td className="py-4 px-4 align-top text-sm font-medium text-brand-text-primary">{doc.name}</td>
+                     <td className="py-4 px-4 align-top text-sm text-brand-text-secondary">{doc.desc}</td>
+                     <td className="py-4 px-4 align-top text-sm text-brand-text-secondary whitespace-nowrap">{doc.date}</td>
+                     <td className="py-4 px-4 align-top">
+                        <span className={`inline-block px-3 py-1 rounded-md text-xs font-medium ${doc.status === 'Analisado' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                           {doc.status}
+                        </span>
+                     </td>
+                     <td className="py-4 px-4 align-top">
+                        <div className="flex flex-wrap gap-2">
+                           {doc.workflows.map((wf, idx) => (
+                             <span key={idx} className="px-2 py-1 border border-gray-200 rounded text-xs text-gray-600 bg-white">
+                               {wf}
+                             </span>
+                           ))}
                         </div>
+                     </td>
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
+           </div>
+           <div className="mt-6 flex items-center justify-between text-sm text-brand-text-secondary border-t border-gray-200 pt-4">
+              <div className="flex items-center gap-2">
+                 <span>Linhas por página:</span>
+                 <input type="number" className="w-12 border border-gray-300 rounded px-2 py-1 text-center" defaultValue={8} />
+              </div>
+              <div>1 - 8 de 8</div>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const StaticNode = ({ icon, label, x, y }) => {
+  return (
+    <div 
+      className="bg-white rounded-lg shadow-md border border-gray-100 p-3 min-w-[200px] flex items-center justify-between group hover:border-blue-300 transition-colors absolute z-10"
+      style={{ left: x, top: y }}
+    >
+       <div className="flex items-center gap-3">
+          <div className="text-brand-accent bg-blue-50 p-1.5 rounded-md">
+             {icon}
+          </div>
+          <span className="text-sm font-semibold text-gray-700">{label}</span>
+       </div>
+       <div className="flex items-center gap-1 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+          <SettingsIcon className="w-4 h-4 cursor-pointer hover:text-gray-600" />
+          <XIcon className="w-4 h-4 cursor-pointer hover:text-red-500" />
+       </div>
+       
+       {/* Simulated Handles */}
+       <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
+       <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-brand-accent rounded-full"></div>
+    </div>
+  );
+};
+
+const AutomationFlowView = () => {
+    return (
+        <div className="flex-1 flex flex-col h-full bg-gray-50">
+            {/* Header */}
+            <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0 z-20">
+                <div className="flex items-center gap-4">
+                    <button className="text-gray-500 hover:text-gray-700 flex items-center gap-1 text-sm font-medium">
+                        <ChevronLeftIcon className="w-4 h-4" /> Voltar
+                    </button>
+                    <div className="h-6 w-px bg-gray-200 mx-2"></div>
+                    <div className="flex items-center gap-2 group">
+                        <h2 className="text-lg font-bold text-gray-800">Fluxo de Automação: Recebimento</h2>
+                        <EditIcon className="w-4 h-4 text-gray-400 cursor-pointer hover:text-brand-accent" />
+                    </div>
+                </div>
+                <div className="flex items-center gap-3">
+                    <button className="px-4 py-2 bg-brand-accent text-white rounded-lg text-sm font-semibold hover:bg-brand-accent-hover flex items-center gap-2">
+                        <PlusIcon className="w-4 h-4" /> Incluir
+                    </button>
+                    <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 flex items-center gap-2">
+                        <DownloadIcon className="w-4 h-4" /> Baixar JSON
+                    </button>
+                    <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 flex items-center gap-2">
+                        <UploadIcon className="w-4 h-4" /> Upload
+                    </button>
+                </div>
+            </div>
+
+            {/* Toolbar */}
+            <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-4 overflow-x-auto shrink-0 z-20">
+                <button className="px-3 py-1.5 bg-brand-accent text-white rounded text-xs font-medium hover:bg-brand-accent-hover flex items-center gap-2 shrink-0">
+                    <XIcon className="w-3 h-3" /> Ocultar Ferramentas
+                </button>
+                <div className="w-px h-6 bg-gray-200 shrink-0"></div>
+                <div className="flex items-center gap-2">
+                    {[
+                        { name: 'Início', icon: <PlayIcon className="w-3 h-3" /> },
+                        { name: 'OCR Padrão', icon: <ScanIcon className="w-3 h-3" /> },
+                        { name: 'Embeddings de Contratos', icon: <DocumentIcon className="w-3 h-3" /> },
+                        { name: 'Resumidor de E-mails', icon: <MailIcon className="w-3 h-3" /> },
+                        { name: 'Extrair Dados de NF-e', icon: <DocumentIcon className="w-3 h-3" /> },
+                        { name: 'Enviar para ERP', icon: <ArrowRightIcon className="w-3 h-3" /> },
+                        { name: 'Finalizar fluxo', icon: <CheckIcon className="w-3 h-3" /> },
+                    ].map((tool, idx) => (
+                        <button key={idx} className="px-3 py-1.5 border border-gray-200 rounded text-xs font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 flex items-center gap-2 whitespace-nowrap">
+                            {tool.icon} {tool.name}
+                        </button>
                     ))}
                 </div>
-            </main>
+            </div>
+
+            {/* Static Canvas */}
+            <div className="flex-1 w-full overflow-auto relative bg-[#f1f5f9]">
+                <div className="min-w-[1000px] min-h-[600px] relative w-full h-full">
+                    {/* Dot Background Pattern */}
+                    <div className="absolute inset-0 pointer-events-none" style={{ 
+                        backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', 
+                        backgroundSize: '20px 20px' 
+                    }}></div>
+
+                    {/* Nodes */}
+                    <StaticNode 
+                        label="Início" 
+                        icon={<PlayIcon className="w-4 h-4" />} 
+                        x={100} y={300} 
+                    />
+                    <StaticNode 
+                        label="OCR Padrão" 
+                        icon={<ScanIcon className="w-4 h-4" />} 
+                        x={400} y={150} 
+                    />
+                    <StaticNode 
+                        label="Embeddings de Contratos" 
+                        icon={<DocumentIcon className="w-4 h-4" />} 
+                        x={750} y={150} 
+                    />
+                    <StaticNode 
+                        label="Extrair Dados de NF-e" 
+                        icon={<DocumentIcon className="w-4 h-4" />} 
+                        x={750} y={450} 
+                    />
+
+                    {/* Connections (SVG Edges) */}
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#2979ff" />
+                            </marker>
+                        </defs>
+                        {/* Edge 1-2: (300, 325) -> (400, 175) */}
+                        <path 
+                            d="M 300 325 C 350 325, 350 175, 400 175" 
+                            fill="none" stroke="#2979ff" strokeWidth="1.5" 
+                        />
+                        {/* Edge 1-4: (300, 325) -> (750, 475) */}
+                        <path 
+                            d="M 300 325 C 525 325, 525 475, 750 475" 
+                            fill="none" stroke="#2979ff" strokeWidth="1.5" 
+                        />
+                        {/* Edge 2-3: (600, 175) -> (750, 175) */}
+                        <path 
+                            d="M 600 175 C 675 175, 675 175, 750 175" 
+                            fill="none" stroke="#2979ff" strokeWidth="1.5" 
+                        />
+                    </svg>
+                </div>
+            </div>
         </div>
     );
 };
 
-
-// --- Main App Component (Welcome Page) ---
 const App = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [activeView, setActiveView] = useState('Home');
-    const [isEditingOrCreatingWorkflow, setIsEditingOrCreatingWorkflow] = useState(false);
-    const [apiKeys, setApiKeys] = useState([
-        { id: 1, name: 'testemkt', value: 'w-ai-7g2f9k4h1j8l3n5m0p' + Math.random().toString(36).substring(2, 15) },
-        { id: 2, name: 'grigio',   value: 'w-ai-a8b3c1d5e7f9g2h4i' + Math.random().toString(36).substring(2, 15) },
-        { id: 3, name: 'n8n',      value: 'w-ai-z6y1x3w5v7u9t2s4r' + Math.random().toString(36).substring(2, 15) },
+    const [activeItem, setActiveItem] = useState('Home');
+    const [isSupportOpen, setIsSupportOpen] = useState(false);
+
+    // Mock data for API keys
+    const [apiKeys, setApiKeys] = useState<ApiKey[]>([
+        { id: 1, name: "Default Key", value: "sk-AbC123XyZ789.................uvW456" }
     ]);
 
-    const handleAddApiKey = (name: string) => {
-        const newKey = {
+    const handleAddKey = (name: string) => {
+        const newKey: ApiKey = {
             id: Date.now(),
             name,
-            value: 'w-ai-' + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
+            value: "sk-" + Math.random().toString(36).substring(2) + "..." + Math.random().toString(36).substring(2)
         };
-        setApiKeys(prevKeys => [...prevKeys, newKey]);
+        setApiKeys([...apiKeys, newKey]);
     };
 
-    const handleDeleteApiKeys = (idsToDelete: number[]) => {
-        setApiKeys(prevKeys => prevKeys.filter(key => !idsToDelete.includes(key.id)));
-    };
-    
-    const handleSetActiveView = (viewName: string) => {
-        setIsEditingOrCreatingWorkflow(false); // Reset workflow view when changing main view
-        setActiveView(viewName);
-    };
-
-    const handleEditFlow = (stepId: number) => {
-        // Per user request, routing from this button has been removed.
-        console.log(`"Adicionar Fluxo de Ferramentas" clicked for step ${stepId}, but navigation is disabled.`);
+    const handleDeleteKeys = (ids: number[]) => {
+        setApiKeys(apiKeys.filter(k => !ids.includes(k.id)));
     };
 
     const renderContent = () => {
-        switch(activeView) {
-            case 'Gerenciar Chaves':
-                return <ApiKeysView keys={apiKeys} onAdd={handleAddApiKey} onDelete={handleDeleteApiKeys} />;
-            case 'Gestão de Workflows':
-                return isEditingOrCreatingWorkflow ? 
-                    <WorkflowEditorView onBack={() => setIsEditingOrCreatingWorkflow(false)} onAddFlow={handleEditFlow}/> : 
-                    <WorkflowManagementView 
-                        onNewWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
-                        onEditWorkflow={() => setIsEditingOrCreatingWorkflow(true)} 
-                    />;
-            case 'Fluxo de automação exemplo':
-                return <StaticAutomationFlow />;
+        switch (activeItem) {
             case 'Home':
-            default:
                 return <WelcomeContent />;
+            case 'Gerenciar Chaves':
+                return <ApiKeysView keys={apiKeys} onAdd={handleAddKey} onDelete={handleDeleteKeys} />;
+            case 'Documentos':
+                 return <DocumentsView />;
+            case 'Fluxo de automação exemplo':
+                 return <AutomationFlowView />;
+            default:
+                return <div className="p-8 text-center text-gray-500">Página em construção: {activeItem}</div>;
         }
-    }
+    };
 
     return (
-        <>
-            <div className="flex h-screen bg-brand-primary font-sans">
-                <Sidebar activeItem={activeView} setActiveItem={handleSetActiveView} />
-                
-                <div className="flex-1 flex flex-col">
-                     <div className="overflow-y-auto h-full">
+        <div className="flex h-screen w-full bg-brand-primary text-brand-text-primary font-sans overflow-hidden">
+            <div className="flex flex-col h-full w-full">
+                 <TopBar />
+                 <div className="flex flex-1 overflow-hidden">
+                    <Sidebar activeItem={activeItem} setActiveItem={setActiveItem} />
+                    <div className="flex-1 bg-brand-primary overflow-hidden flex flex-col relative">
                         {renderContent()}
+                        <button
+                            onClick={() => setIsSupportOpen(true)}
+                            className="absolute bottom-6 right-6 p-3 bg-brand-accent text-white rounded-full shadow-lg hover:bg-brand-accent-hover transition-colors z-10"
+                            aria-label="Suporte"
+                        >
+                            <SupportIcon className="w-6 h-6" />
+                        </button>
                     </div>
-                </div>
+                 </div>
             </div>
-
-
-            {/* Floating Action Button for Support */}
-            <button
-                onClick={() => setIsModalOpen(true)}
-                className="fixed bottom-6 right-6 bg-brand-accent text-white p-4 rounded-full shadow-lg hover:bg-brand-accent-hover transition-transform transform hover:scale-110 z-30"
-                aria-label="Abrir formulário de feedback e suporte"
-            >
-                <SupportIcon />
-            </button>
-
-            {/* Support Modal */}
-            <SupportModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        </>
+            <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+        </div>
     );
 };
 
