@@ -433,8 +433,8 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
     ];
 
     return (
-        <aside className="w-64 bg-brand-secondary p-4 space-y-2 border-r border-gray-200 shadow-sm shrink-0 h-full">
-            <nav>
+        <aside className="w-64 bg-brand-secondary border-r border-gray-200 shadow-sm shrink-0 h-full overflow-y-auto">
+            <nav className="p-4 space-y-2">
                 <ul>
                     {navItems.map(item => {
                         const isActive = activeItem === item.name;
